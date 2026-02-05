@@ -1,0 +1,77 @@
+import { create } from 'zustand';
+import { Process, AlgorithmType, SimulationResult } from '@/lib/types';
+import { runSimulation } from '@/lib/runner';
+
+interface AppState {
+    processes: Process[];
+    algorithm: AlgorithmType;
+    timeQuantum: number;
+    results: SimulationResult | null;
+    isPlaying: boolean;
+    simulationSpeed: number; // 1x, 2x, etc.
+    currentTime: number;
+    totalDuration: number;
+
+    // Actions
+    addProcess: (process: Process) => void;
+    removeProcess: (id: string) => void;
+    updateProcess: (id: string, updates: Partial<Process>) => void;
+    setAlgorithm: (algo: AlgorithmType) => void;
+    setTimeQuantum: (q: number) => void;
+    setSimulationSpeed: (speed: number) => void;
+    setCurrentTime: (time: number) => void;
+    togglePlayback: () => void;
+    run: () => void;
+    reset: () => void; // Reset simulation
+    step: () => void;
+}
+
+export const useStore = create<AppState>((set, get) => ({
+    processes: [
+        { id: 'P1', arrivalTime: 0, burstTime: 5, priority: 1, color: '#3b82f6' },
+        { id: 'P2', arrivalTime: 2, burstTime: 3, priority: 2, color: '#10b981' },
+        { id: 'P3', arrivalTime: 4, burstTime: 1, priority: 3, color: '#f59e0b' },
+    ],
+    algorithm: 'FCFS',
+    timeQuantum: 2,
+    results: null,
+    isPlaying: false,
+    simulationSpeed: 1,
+    currentTime: 0,
+    totalDuration: 0,
+
+    addProcess: (process) => set((state) => ({
+        processes: [...state.processes, process]
+    })),
+
+    removeProcess: (id) => set((state) => ({
+        processes: state.processes.filter(p => p.id !== id)
+    })),
+
+    updateProcess: (id, updates) => set((state) => ({
+        processes: state.processes.map(p => p.id === id ? { ...p, ...updates } : p)
+    })),
+
+    setAlgorithm: (algo) => set({ algorithm: algo }),
+    setTimeQuantum: (q) => set({ timeQuantum: q }),
+    setSimulationSpeed: (speed) => set({ simulationSpeed: speed }),
+    setCurrentTime: (time) => set({ currentTime: time }),
+    togglePlayback: () => set((state) => ({ isPlaying: !state.isPlaying })),
+
+    run: () => {
+        const { processes, algorithm, timeQuantum } = get();
+        const results = runSimulation(algorithm, processes, { timeQuantum });
+        const lastBlock = results.ganttChart[results.ganttChart.length - 1];
+        const totalDuration = lastBlock ? lastBlock.endTime : 0;
+        set({ results, totalDuration, currentTime: 0, isPlaying: false });
+    },
+
+    step: () => {
+        const { currentTime, totalDuration } = get();
+        if (currentTime < totalDuration) {
+            set({ currentTime: Math.min(currentTime + 1, totalDuration) });
+        }
+    },
+
+    reset: () => set({ results: null, isPlaying: false, processes: [], currentTime: 0, totalDuration: 0 }),
+}));

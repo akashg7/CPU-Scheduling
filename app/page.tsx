@@ -1,101 +1,99 @@
-import Image from "next/image";
+"use client";
+
+import { ProcessInput } from "@/components/visualizer/ProcessInput";
+import { Controls } from "@/components/visualizer/Controls";
+import { GanttChart } from "@/components/visualizer/GanttChart";
+import { MetricsTable } from "@/components/visualizer/MetricsTable";
+import { ReadyQueue } from "@/components/visualizer/ReadyQueue";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useStore } from "@/store/useStore";
+import { useEffect } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ComparisonView } from "@/components/visualizer/ComparisonView";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const { run, algorithm, processes, timeQuantum } = useStore();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Auto-run simulation when inputs change
+  useEffect(() => {
+    run();
+  }, [run, algorithm, processes, timeQuantum]);
+
+  return (
+    <main className="min-h-screen bg-black text-slate-900 p-4 md:p-8 font-sans">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
+          <div>
+            <h1 className="text-3xl font-bold text-[#E5E7EB] tracking-tight">
+              CPU Scheduling Visualizer
+            </h1>
+            <p className="text-[#E5E7EB] mt-1">
+              Visualize and compare scheduling algorithms with deterministic precision.
+            </p>
+          </div>
+          {/* <div className="flex gap-2">
+            <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">Next.js 14</Badge>
+            <Badge variant="outline" className="text-emerald-600 border-emerald-200 bg-emerald-50">TypeScript</Badge>
+          </div> */}
+        </header>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Sidebar: Controls & Inputs */}
+          <div className="space-y-6 lg:col-span-1 lg:mt-16">
+            <Card className="bg-black border-[#232838] shadow-sm">
+              <CardHeader>
+                <CardTitle className="text-[#E5E7EB]">Configuration</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <Controls />
+                <ProcessInput />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right Area: Visualization & Metrics */}
+          <div className="space-y-6 lg:col-span-2 mt-1">
+            <Tabs defaultValue="visualizer" className="w-full">
+              <TabsList className="bg-[#161A22] border-[#232838] mb-4 p-1">
+                <TabsTrigger value="visualizer" className="font-medium text-[#E5E7EB] uppercase tracking-widest data-[state=active]:bg-black data-[state=active]:text-[#E5E7EB] data-[state=active]:shadow-sm text-[#E5E7EB]">Visualizer</TabsTrigger>
+                <TabsTrigger value="comparison" className="font-medium text-[#E5E7EB] uppercase tracking-widest data-[state=active]:bg-black data-[state=active]:text-[#E5E7EB] data-[state=active]:shadow-sm text-[#E5E7EB]">Comparison</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="visualizer" className="space-y-6">
+                <Card className="bg-black border-[#232838] shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-[#E5E7EB]">Visualization</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-8">
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-medium text-[#E5E7EB] uppercase tracking-wider">Ready Queue & CPU</h3>
+                      <ReadyQueue />
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-sm font-medium text-[#E5E7EB] uppercase tracking-wider">Timeline</h3>
+                      <GanttChart />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-black border-[#232838] shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-[#E5E7EB]">Metrics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <MetricsTable />
+                  </CardContent>
+                </Card>
+              </TabsContent>
+
+              <TabsContent value="comparison">
+                <ComparisonView />
+              </TabsContent>  
+            </Tabs>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
