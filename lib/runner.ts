@@ -1,5 +1,5 @@
 import { AlgorithmType, Process, SimulationResult, AlgorithmOptions } from "./types";
-import { fcfs, sjf, priority, rr, srjf } from "./algorithms";
+import { fcfs, sjf, rr } from "./algorithms";
 
 export const runSimulation = (
     algorithm: AlgorithmType,

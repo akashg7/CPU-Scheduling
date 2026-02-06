@@ -8,7 +8,7 @@ import { ReadyQueue } from "@/components/visualizer/ReadyQueue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ComparisonView } from "@/components/visualizer/ComparisonView";
 
