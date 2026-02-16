@@ -8,9 +8,9 @@ import { ReadyQueue } from "@/components/visualizer/ReadyQueue";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
-// import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ComparisonView } from "@/components/visualizer/ComparisonView";
+import { Cpu, BarChart3 } from "lucide-react";
 
 export default function Home() {
   const { run, algorithm, processes, timeQuantum } = useStore();
@@ -21,29 +21,28 @@ export default function Home() {
   }, [run, algorithm, processes, timeQuantum]);
 
   return (
-    <main className="min-h-screen bg-black text-slate-900 p-4 md:p-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
+    <main className="min-h-screen p-4 md:p-8 font-sans">
+      <div className="max-w-7xl mx-auto space-y-8 animate-fade-in">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200/60">
           <div>
-            <h1 className="text-3xl font-bold text-[#E5E7EB] tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 gradient-text">
               CPU Scheduling Visualizer
             </h1>
-            <p className="text-[#E5E7EB] mt-1">
+            <p className="text-slate-600 text-lg">
               Visualize and compare scheduling algorithms with deterministic precision.
             </p>
           </div>
-          {/* <div className="flex gap-2">
-            <Badge variant="outline" className="text-blue-600 border-blue-200 bg-blue-50">Next.js 14</Badge>
-            <Badge variant="outline" className="text-emerald-600 border-emerald-200 bg-emerald-50">TypeScript</Badge>
-          </div> */}
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Sidebar: Controls & Inputs */}
-          <div className="space-y-6 lg:col-span-1 lg:mt-16">
-            <Card className="bg-black border-[#232838] shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-[#E5E7EB]">Configuration</CardTitle>
+          <div className="space-y-6 lg:col-span-1">
+            <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-slate-800 flex items-center gap-2">
+                  <Cpu className="w-5 h-5 text-purple-600" />
+                  Configuration
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <Controls />
@@ -53,33 +52,45 @@ export default function Home() {
           </div>
 
           {/* Right Area: Visualization & Metrics */}
-          <div className="space-y-6 lg:col-span-2 mt-1">
+          <div className="space-y-6 lg:col-span-2">
             <Tabs defaultValue="visualizer" className="w-full">
-              <TabsList className="bg-[#161A22] border-[#232838] mb-4 p-1">
-                <TabsTrigger value="visualizer" className="font-medium text-[#E5E7EB] uppercase tracking-widest data-[state=active]:bg-black data-[state=active]:text-[#E5E7EB] data-[state=active]:shadow-sm text-[#E5E7EB]">Visualizer</TabsTrigger>
-                <TabsTrigger value="comparison" className="font-medium text-[#E5E7EB] uppercase tracking-widest data-[state=active]:bg-black data-[state=active]:text-[#E5E7EB] data-[state=active]:shadow-sm text-[#E5E7EB]">Comparison</TabsTrigger>
+              <TabsList className="glass w-full p-1.5 mb-4">
+                <TabsTrigger
+                  value="visualizer"
+                  className="flex-1 font-medium tracking-wide data-[state=active]:bg-white data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  <Cpu className="w-4 h-4 mr-2" />
+                  Visualizer
+                </TabsTrigger>
+                <TabsTrigger
+                  value="comparison"
+                  className="flex-1 font-medium tracking-wide data-[state=active]:bg-white data-[state=active]:shadow-md transition-all duration-200"
+                >
+                  <BarChart3 className="w-4 h-4 mr-2" />
+                  Comparison
+                </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="visualizer" className="space-y-6">
-                <Card className="bg-black border-[#232838] shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-[#E5E7EB]">Visualization</CardTitle>
+              <TabsContent value="visualizer" className="space-y-6 animate-fade-in">
+                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-slate-800">Visualization</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-8">
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium text-[#E5E7EB] uppercase tracking-wider">Ready Queue & CPU</h3>
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Ready Queue & CPU</h3>
                       <ReadyQueue />
                     </div>
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium text-[#E5E7EB] uppercase tracking-wider">Timeline</h3>
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Timeline</h3>
                       <GanttChart />
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="bg-black border-[#232838] shadow-sm">
-                  <CardHeader>
-                    <CardTitle className="text-[#E5E7EB]">Metrics</CardTitle>
+                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-slate-800">Metrics</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <MetricsTable />
@@ -87,9 +98,9 @@ export default function Home() {
                 </Card>
               </TabsContent>
 
-              <TabsContent value="comparison">
+              <TabsContent value="comparison" className="animate-fade-in">
                 <ComparisonView />
-              </TabsContent>  
+              </TabsContent>
             </Tabs>
           </div>
         </div>

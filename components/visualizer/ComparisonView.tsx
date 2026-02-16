@@ -24,28 +24,28 @@ export const ComparisonView = () => {
     const maxTurn = Math.max(...data.map(d => d.avgTurn), 1);
 
     return (
-        <div className="space-y-6">
-            <Card className="bg-black border-[#232838] shadow-sm rounded-xl">
-                <CardHeader className="pb-4 border-b border-[#232838]">
-                    <CardTitle className="text-[#9CA3AF] text-xs uppercase tracking-widest font-semibold">Algorithm Benchmark</CardTitle>
+        <div className="space-y-6 animate-fade-in">
+            <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                <CardHeader className="pb-4 border-b border-slate-200">
+                    <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Algorithm Benchmark</CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0">
+                <CardContent className="pt-6">
                     <Table>
                         <TableHeader>
-                            <TableRow className="border-[#232838] hover:bg-[#161A22]">
-                                <TableHead className="text-[#6B7280] font-bold uppercase text-[10px] tracking-wider h-12">Algorithm</TableHead>
-                                <TableHead className="text-right text-[#6B7280] font-bold uppercase text-[10px] tracking-wider h-12">Avg Waiting</TableHead>
-                                <TableHead className="text-right text-[#6B7280] font-bold uppercase text-[10px] tracking-wider h-12">Avg Turnaround</TableHead>
-                                <TableHead className="text-right text-[#6B7280] font-bold uppercase text-[10px] tracking-wider h-12">Makespan</TableHead>
+                            <TableRow className="border-slate-200 hover:bg-slate-50">
+                                <TableHead className="text-slate-700 font-bold uppercase text-xs tracking-wider h-11">Algorithm</TableHead>
+                                <TableHead className="text-right text-slate-700 font-bold uppercase text-xs tracking-wider h-11">Avg Waiting</TableHead>
+                                <TableHead className="text-right text-slate-700 font-bold uppercase text-xs tracking-wider h-11">Avg Turnaround</TableHead>
+                                <TableHead className="text-right text-slate-700 font-bold uppercase text-xs tracking-wider h-11">Makespan</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {data.map((d) => (
-                                <TableRow key={d.algo} className="border-[#1F2430] hover:bg-[#1C2029] transition-colors">
-                                    <TableCell className="font-medium text-[#E5E7EB] py-3">{d.algo}</TableCell>
-                                    <TableCell className="text-right text-[#3B82F6] font-mono font-medium py-3">{d.avgWait.toFixed(2)}</TableCell>
-                                    <TableCell className="text-right text-[#10B981] font-mono font-medium py-3">{d.avgTurn.toFixed(2)}</TableCell>
-                                    <TableCell className="text-right text-[#9CA3AF] font-mono py-3">{d.maxComp}</TableCell>
+                                <TableRow key={d.algo} className="border-slate-200 hover:bg-purple-50/30 transition-colors">
+                                    <TableCell className="font-semibold text-slate-800 py-3.5">{d.algo}</TableCell>
+                                    <TableCell className="text-right text-blue-600 font-mono font-semibold py-3.5 text-sm">{d.avgWait.toFixed(2)}</TableCell>
+                                    <TableCell className="text-right text-emerald-600 font-mono font-semibold py-3.5 text-sm">{d.avgTurn.toFixed(2)}</TableCell>
+                                    <TableCell className="text-right text-slate-600 font-mono py-3.5 text-sm">{d.maxComp}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -54,21 +54,21 @@ export const ComparisonView = () => {
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="bg-black border-[#232838] shadow-sm rounded-xl">
-                    <CardHeader className="pb-4 border-b border-[#232838]">
-                        <CardTitle className="text-[#9CA3AF] text-xs uppercase tracking-widest font-semibold">Waiting Time Visualization</CardTitle>
+                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                    <CardHeader className="pb-4 border-b border-slate-200">
+                        <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Waiting Time Visualization</CardTitle>
                     </CardHeader>
                     <CardContent className="pt-6">
                         <div className="space-y-5">
                             {data.map(d => (
                                 <div key={d.algo} className="space-y-2">
-                                    <div className="flex justify-between text-xs text-[#9CA3AF]">
-                                        <span className="font-medium">{d.algo}</span>
-                                        <span className="font-mono text-[#E5E7EB]">{d.avgWait.toFixed(2)}</span>
+                                    <div className="flex justify-between text-sm text-slate-600">
+                                        <span className="font-semibold">{d.algo}</span>
+                                        <span className="font-mono text-slate-800 font-semibold">{d.avgWait.toFixed(2)}</span>
                                     </div>
-                                    <div className="h-1.5 bg-[#0F1115] rounded-full overflow-hidden border border-[#232838]">
+                                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
                                         <div
-                                            className="h-full bg-blue-600 rounded-full"
+                                            className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500"
                                             style={{ width: `${(d.avgWait / maxWait) * 100}%` }}
                                         />
                                     </div>
@@ -78,21 +78,21 @@ export const ComparisonView = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="bg-black border-[#232838] shadow-sm rounded-xl">
-                    <CardHeader className="pb-4 border-b border-[#232838]">
-                        <CardTitle className="text-[#9CA3AF] text-xs uppercase tracking-widest font-semibold">Turnaround Time Visualization</CardTitle>
+                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                    <CardHeader className="pb-4 border-b border-slate-200">
+                        <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Turnaround Time Visualization</CardTitle>
                     </CardHeader>
                     <CardContent className="pt-6">
                         <div className="space-y-5">
                             {data.map(d => (
                                 <div key={d.algo} className="space-y-2">
-                                    <div className="flex justify-between text-xs text-[#9CA3AF]">
-                                        <span className="font-medium">{d.algo}</span>
-                                        <span className="font-mono text-[#E5E7EB]">{d.avgTurn.toFixed(2)}</span>
+                                    <div className="flex justify-between text-sm text-slate-600">
+                                        <span className="font-semibold">{d.algo}</span>
+                                        <span className="font-mono text-slate-800 font-semibold">{d.avgTurn.toFixed(2)}</span>
                                     </div>
-                                    <div className="h-1.5 bg-[#0F1115] rounded-full overflow-hidden border border-[#232838]">
+                                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
                                         <div
-                                            className="h-full bg-emerald-600 rounded-full"
+                                            className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all duration-500"
                                             style={{ width: `${(d.avgTurn / maxTurn) * 100}%` }}
                                         />
                                     </div>

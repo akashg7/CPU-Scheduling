@@ -27,13 +27,13 @@ export const ReadyQueue = () => {
 
     return (
         <div className="flex flex-col md:flex-row gap-8 items-center justify-start">
-            {/* HER HERO CPU */}
+            {/* HERO CPU */}
             <div className="relative group">
-                <div className="absolute -inset-0.5 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-lg opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+                <div className="absolute -inset-1 bg-gradient-to-br from-purple-400/30 to-blue-400/30 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition duration-1000"></div>
 
-                <div className="relative flex flex-col items-center justify-center w-32 h-32 bg-black rounded-2xl border border-[#232838] shadow-2xl overflow-hidden">
+                <div className="relative flex flex-col items-center justify-center w-36 h-36 bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200 shadow-xl overflow-hidden">
 
-                    <span className="absolute top-2 text-[10px] text-[#6B7280] uppercase tracking-widest font-bold">ACTIVE CPU</span>
+                    <span className="absolute top-3 text-xs text-slate-500 uppercase tracking-widest font-bold">ACTIVE CPU</span>
 
                     <AnimatePresence mode="wait">
                         {runningId ? (
@@ -42,13 +42,13 @@ export const ReadyQueue = () => {
                                 initial={{ scale: 0.8, opacity: 0 }}
                                 animate={{ scale: 1, opacity: 1 }}
                                 exit={{ scale: 0.9, opacity: 0 }}
-                                className="w-16 h-16 rounded-xl flex items-center justify-center font-bold text-3xl text-white shadow-lg z-10"
+                                className="w-20 h-20 rounded-xl flex items-center justify-center font-bold text-3xl text-white shadow-lg z-10"
                                 style={{ backgroundColor: getProcess(runningId)?.color || '#333' }}
                             >
                                 {runningId}
                             </motion.div>
                         ) : (
-                            <div className="w-16 h-16 rounded-xl bg-[#161A22] border-2 border-dashed border-[#232838] flex items-center justify-center text-[#4B5563] text-xs font-medium">
+                            <div className="w-20 h-20 rounded-xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center text-slate-400 text-sm font-semibold">
                                 IDLE
                             </div>
                         )}
@@ -57,8 +57,8 @@ export const ReadyQueue = () => {
                     {/* Activity Bar */}
                     {runningId && (
                         <motion.div
-                            className="absolute bottom-0 left-0 right-0 h-1 bg-blue-500"
-                            animate={{ opacity: [0.4, 1, 0.4] }}
+                            className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 to-blue-500"
+                            animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{ repeat: Infinity, duration: 2 }}
                         />
                     )}
@@ -70,39 +70,45 @@ export const ReadyQueue = () => {
                         <svg className="w-full h-full rotate-[-90deg]" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <rect
                                 x="1" y="1" width="98" height="98" rx="15"
-                                fill="none" stroke="#1F2937" strokeWidth="2"
+                                fill="none" stroke="#e2e8f0" strokeWidth="2"
                             />
                             <rect
                                 x="1" y="1" width="98" height="98" rx="15"
-                                fill="none" stroke="#3B82F6" strokeWidth="2"
+                                fill="none" stroke="url(#gradient)" strokeWidth="2"
                                 strokeDasharray="400"
                                 strokeDashoffset={400 - (progress / 100) * 400}
                                 className="transition-all duration-100 ease-linear"
                             />
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="#a855f7" />
+                                    <stop offset="100%" stopColor="#3b82f6" />
+                                </linearGradient>
+                            </defs>
                         </svg>
                     </div>
                 )}
             </div>
 
             {/* Connection Line */}
-            <div className="hidden md:flex flex-col items-center gap-1">
-                <div className="w-16 h-[1px] bg-gradient-to-r from-[#232838] to-transparent"></div>
-                <div className="text-[10px] text-[#4B5563] uppercase tracking-wider font-medium">Dispatch</div>
-                <div className="w-16 h-[1px] bg-gradient-to-r from-[#232838] to-transparent"></div>
+            <div className="hidden md:flex flex-col items-center gap-1.5">
+                <div className="w-20 h-[1px] bg-gradient-to-r from-slate-300 to-transparent"></div>
+                <div className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Dispatch</div>
+                <div className="w-20 h-[1px] bg-gradient-to-r from-slate-300 to-transparent"></div>
             </div>
 
             {/* Ready Queue */}
-            <div className="flex-1 w-full md:w-auto p-5 bg-black rounded-xl border border-[#232838] min-h-[128px] flex flex-col justify-center relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-[#232838]"></div>
+            <div className="flex-1 w-full md:w-auto p-6 bg-white/70 backdrop-blur-sm rounded-2xl border border-slate-200 min-h-[140px] flex flex-col justify-center relative overflow-hidden shadow-sm">
+                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-purple-400 to-blue-400 rounded-l-2xl"></div>
 
-                <div className="flex justify-between items-center mb-3">
-                    <span className="text-[10px] text-[#9CA3AF] uppercase tracking-widest font-bold flex items-center gap-2">
-                        Ready Queue <span className="w-1 h-1 rounded-full bg-[#3B82F6]"></span>
+                <div className="flex justify-between items-center mb-4">
+                    <span className="text-xs text-slate-600 uppercase tracking-widest font-bold flex items-center gap-2">
+                        Ready Queue <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                     </span>
-                    <span className="text-[10px] text-[#4B5563] font-mono tabular-nums">{queueIds.length} Process{queueIds.length !== 1 ? 'es' : ''}</span>
+                    <span className="text-xs text-slate-500 font-mono tabular-nums">{queueIds.length} Process{queueIds.length !== 1 ? 'es' : ''}</span>
                 </div>
 
-                <div className="flex gap-3 overflow-x-auto pb-2 items-center min-h-[48px]">
+                <div className="flex gap-3 overflow-x-auto pb-2 items-center min-h-[56px]">
                     <AnimatePresence mode="popLayout">
                         {queueIds.map((id) => {
                             const p = getProcess(id);
@@ -116,14 +122,14 @@ export const ReadyQueue = () => {
                                     className="relative group flex-shrink-0"
                                 >
                                     <div
-                                        className="w-12 h-12 rounded-lg flex items-center justify-center font-bold text-sm text-white shadow-sm border border-white/5 ring-1 ring-white/10 z-10 relative"
+                                        className="w-14 h-14 rounded-xl flex items-center justify-center font-bold text-base text-white shadow-md border border-white/20 ring-1 ring-black/5 z-10 relative hover:scale-105 transition-transform"
                                         style={{ backgroundColor: p?.color }}
                                     >
                                         {id}
                                     </div>
                                     {/* Badges */}
                                     {(algorithm === 'Priority' || algorithm === 'SJF' || algorithm === 'SRJF') && (
-                                        <div className="absolute -bottom-2 -right-1 bg-[#161A22] text-[9px] text-[#9CA3AF] px-1.5 py-0.5 rounded border border-[#232838] shadow-sm z-20 font-mono">
+                                        <div className="absolute -bottom-2 -right-1 bg-white text-xs text-slate-700 px-2 py-0.5 rounded-md border border-slate-200 shadow-sm z-20 font-mono font-semibold">
                                             {algorithm === 'Priority' ? `P${p?.priority}` : `${p?.burstTime}ms`}
                                         </div>
                                     )}
@@ -132,7 +138,7 @@ export const ReadyQueue = () => {
                         })}
                     </AnimatePresence>
                     {queueIds.length === 0 && (
-                        <div className="flex items-center gap-2 text-[#4B5563] text-xs">
+                        <div className="flex items-center gap-2 text-slate-400 text-sm">
                             <span className="italic">Queue is empty</span>
                         </div>
                     )}

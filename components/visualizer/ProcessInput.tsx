@@ -34,72 +34,72 @@ export const ProcessInput = () => {
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-3 gap-3">
-                <div className="space-y-1.5">
-                    <Label className="text-[10px] uppercase font-bold text-[#9CA3AF] tracking-wider">Arrival</Label>
+                <div className="space-y-2">
+                    <Label className="text-xs uppercase font-semibold text-slate-600 tracking-wider">Arrival</Label>
                     <Input
                         type="number"
                         min={0}
                         value={newProcess.arrivalTime}
                         onChange={(e) => setNewProcess({ ...newProcess, arrivalTime: parseInt(e.target.value) || 0 })}
-                        className="bg-[#0F1115] border-[#232838] text-[#E5E7EB] h-9 focus-visible:ring-1 focus-visible:ring-blue-500/50 font-mono text-xs"
+                        className="bg-white/80 border-slate-300 text-slate-800 h-10 focus-visible:ring-2 focus-visible:ring-purple-500/50 font-mono shadow-sm hover:border-purple-400 transition-colors"
                     />
                 </div>
-                <div className="space-y-1.5">
-                    <Label className="text-[10px] uppercase font-bold text-[#9CA3AF] tracking-wider">Burst</Label>
+                <div className="space-y-2">
+                    <Label className="text-xs uppercase font-semibold text-slate-600 tracking-wider">Burst</Label>
                     <Input
                         type="number"
                         min={1}
                         value={newProcess.burstTime}
                         onChange={(e) => setNewProcess({ ...newProcess, burstTime: parseInt(e.target.value) || 1 })}
-                        className="bg-[#0F1115] border-[#232838] text-[#E5E7EB] h-9 focus-visible:ring-1 focus-visible:ring-blue-500/50 font-mono text-xs"
+                        className="bg-white/80 border-slate-300 text-slate-800 h-10 focus-visible:ring-2 focus-visible:ring-purple-500/50 font-mono shadow-sm hover:border-purple-400 transition-colors"
                     />
                 </div>
-                <div className="space-y-1.5">
-                    <Label className="text-[10px] uppercase font-bold text-[#9CA3AF] tracking-wider">Priority</Label>
+                <div className="space-y-2">
+                    <Label className="text-xs uppercase font-semibold text-slate-600 tracking-wider">Priority</Label>
                     <Input
                         type="number"
                         min={1}
                         value={newProcess.priority}
                         onChange={(e) => setNewProcess({ ...newProcess, priority: parseInt(e.target.value) || 1 })}
-                        className="bg-[#0F1115] border-[#232838] text-[#E5E7EB] h-9 focus-visible:ring-1 focus-visible:ring-blue-500/50 font-mono text-xs"
+                        className="bg-white/80 border-slate-300 text-slate-800 h-10 focus-visible:ring-2 focus-visible:ring-purple-500/50 font-mono shadow-sm hover:border-purple-400 transition-colors"
                     />
                 </div>
             </div>
-            <Button onClick={handleAdd} className="w-full bg-black hover:bg-white hover:text-black text-[#E5E7EB] border border-[#232838] shadow-sm text-xs font-medium h-9 transition-all active:scale-[0.98]">
-                <Plus className="w-3 h-3 mr-2" /> Add Process
+            <Button onClick={handleAdd} className="w-full bg-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 text-slate-700 hover:text-white border border-slate-300 shadow-sm hover:shadow-md font-semibold h-10 transition-all duration-300 active:scale-[0.98]">
+                <Plus className="w-4 h-4 mr-2" /> Add Process
             </Button>
 
-            <div className="rounded-lg border border-[#232838] bg-black max-h-[220px] overflow-auto shadow-inner">
+            <div className="rounded-xl border border-slate-200 bg-white/60 max-h-[240px] overflow-auto shadow-inner backdrop-blur-sm">
                 <Table>
-                    <TableHeader className="bg-[#161A22] sticky top-0 z-10">
-                        <TableRow className="border-[#232838] hover:bg-[#161A22]">
-                            <TableHead className="text-[10px] h-8 text-[#9CA3AF] uppercase tracking-wider font-bold">ID</TableHead>
-                            <TableHead className="text-[10px] h-8 text-[#9CA3AF] uppercase tracking-wider font-bold">Arr</TableHead>
-                            <TableHead className="text-[10px] h-8 text-[#9CA3AF] uppercase tracking-wider font-bold">Bur</TableHead>
-                            <TableHead className="text-[10px] h-8 text-[#9CA3AF] uppercase tracking-wider font-bold">Pri</TableHead>
-                            <TableHead className="text-[10px] h-8 w-[40px]"></TableHead>
+                    <TableHeader className="bg-slate-50/80 sticky top-0 z-10 backdrop-blur-sm">
+                        <TableRow className="border-slate-200 hover:bg-slate-50">
+                            <TableHead className="text-xs h-10 text-slate-700 uppercase tracking-wider font-bold">ID</TableHead>
+                            <TableHead className="text-xs h-10 text-slate-700 uppercase tracking-wider font-bold">Arr</TableHead>
+                            <TableHead className="text-xs h-10 text-slate-700 uppercase tracking-wider font-bold">Bur</TableHead>
+                            <TableHead className="text-xs h-10 text-slate-700 uppercase tracking-wider font-bold">Pri</TableHead>
+                            <TableHead className="text-xs h-10 w-[40px]"></TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
                         {processes.map((p) => (
-                            <TableRow key={p.id} className="border-[#232838] hover:bg-[#1C2029] group">
-                                <TableCell className="py-1.5 text-xs font-medium text-[#E5E7EB]">
+                            <TableRow key={p.id} className="border-slate-200 hover:bg-purple-50/50 group transition-colors">
+                                <TableCell className="py-2.5 text-sm font-semibold text-slate-800">
                                     <div className="flex items-center gap-2">
-                                        <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ backgroundColor: p.color }}></span>
+                                        <span className="inline-block w-2 h-2 rounded-full shadow-sm" style={{ backgroundColor: p.color }}></span>
                                         {p.id}
                                     </div>
                                 </TableCell>
-                                <TableCell className="py-1.5 text-xs text-[#9CA3AF] font-mono">{p.arrivalTime}</TableCell>
-                                <TableCell className="py-1.5 text-xs text-[#9CA3AF] font-mono">{p.burstTime}</TableCell>
-                                <TableCell className="py-1.5 text-xs text-[#9CA3AF] font-mono">{p.priority}</TableCell>
-                                <TableCell className="py-1.5 text-xs">
+                                <TableCell className="py-2.5 text-sm text-slate-600 font-mono">{p.arrivalTime}</TableCell>
+                                <TableCell className="py-2.5 text-sm text-slate-600 font-mono">{p.burstTime}</TableCell>
+                                <TableCell className="py-2.5 text-sm text-slate-600 font-mono">{p.priority}</TableCell>
+                                <TableCell className="py-2.5 text-sm">
                                     <Button
                                         variant="ghost"
                                         size="icon"
-                                        className="h-5 w-5 text-[#4B5563] hover:text-red-400 hover:bg-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="h-6 w-6 text-slate-400 hover:text-red-600 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all"
                                         onClick={() => removeProcess(p.id)}
                                     >
-                                        <Trash2 className="w-3 h-3" />
+                                        <Trash2 className="w-3.5 h-3.5" />
                                     </Button>
                                 </TableCell>
                             </TableRow>

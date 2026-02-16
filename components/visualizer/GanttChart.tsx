@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 export const GanttChart = () => {
     const { results, totalDuration, currentTime, setCurrentTime, isPlaying } = useStore();
 
-    // Animation loop (Kept same logic, just styled)
+    // Animation loop
     useEffect(() => {
         let animationFrameId: number;
         let lastTime: number;
@@ -44,16 +44,16 @@ export const GanttChart = () => {
     const duration = Math.max(totalDuration, 10);
 
     return (
-        <div className="relative w-full h-24 bg-black rounded-xl border border-[#232838] overflow-hidden group">
+        <div className="relative w-full h-28 bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl border border-slate-200 overflow-hidden group shadow-inner">
             {/* Grid Background */}
             <div className="absolute inset-0 flex">
                 {Array.from({ length: Math.ceil(duration) }).map((_, i) => (
-                    <div key={i} className="flex-1 border-r border-[#232838]/50 h-full" />
+                    <div key={i} className="flex-1 border-r border-slate-200/50 h-full" />
                 ))}
             </div>
 
             {/* Blocks */}
-            <div className="absolute inset-y-0 left-0 right-0 flex items-center p-3">
+            <div className="absolute inset-y-0 left-0 right-0 flex items-center p-4">
                 {results?.ganttChart.map((block, i) => {
                     const startPercent = (block.startTime / duration) * 100;
                     const widthPercent = ((block.endTime - block.startTime) / duration) * 100;
@@ -70,7 +70,7 @@ export const GanttChart = () => {
                     return (
                         <div
                             key={i}
-                            className="absolute h-12 rounded bg-[#161A22] overflow-hidden shadow-sm"
+                            className="absolute h-14 rounded-lg bg-white/80 overflow-hidden shadow-md border border-slate-200/60"
                             style={{
                                 left: `${startPercent}%`,
                                 width: `${widthPercent}%`,
@@ -78,18 +78,18 @@ export const GanttChart = () => {
                         >
                             {/* Filled part */}
                             <div
-                                className="absolute inset-y-0 left-0"
+                                className="absolute inset-y-0 left-0 transition-all duration-200"
                                 style={{
                                     width: `${visibleWidth}%`,
                                     backgroundColor: block.color,
-                                    opacity: 0.9,
+                                    opacity: 0.85,
                                 }}
                             />
 
                             {/* Label */}
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <span className="text-[10px] font-bold text-white drop-shadow-md tracking-wider">
-                                    {widthPercent > 2 ? block.processId : ''}
+                                <span className="text-xs font-bold text-white drop-shadow-lg tracking-wide">
+                                    {widthPercent > 3 ? block.processId : ''}
                                 </span>
                             </div>
                         </div>
@@ -99,16 +99,17 @@ export const GanttChart = () => {
 
             {/* Timeline Cursor */}
             <motion.div
-                className="absolute top-0 bottom-0 w-[1px] bg-blue-500/80 z-20 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                className="absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 to-blue-600 z-20 shadow-lg"
                 style={{
-                    left: `${(currentTime / duration) * 100}%`
+                    left: `${(currentTime / duration) * 100}%`,
+                    filter: 'drop-shadow(0 0 8px rgba(147, 51, 234, 0.6))'
                 }}
             />
 
             {/* Time Markers */}
-            <div className="absolute bottom-1 left-0 right-0 flex justify-between px-2 pointer-events-none">
-                <span className="text-[9px] text-[#4B5563] font-mono">0</span>
-                <span className="text-[9px] text-[#4B5563] font-mono">{duration}</span>
+            <div className="absolute bottom-2 left-0 right-0 flex justify-between px-3 pointer-events-none">
+                <span className="text-xs text-slate-500 font-mono font-semibold">0</span>
+                <span className="text-xs text-slate-500 font-mono font-semibold">{duration}</span>
             </div>
         </div>
     );
