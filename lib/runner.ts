@@ -1,5 +1,6 @@
 import { AlgorithmType, Process, SimulationResult, AlgorithmOptions } from "./types";
 import { fcfs, sjf, rr } from "./algorithms";
+import { priority } from "./algorithms/priority";
 
 export const runSimulation = (
     algorithm: AlgorithmType,
@@ -11,8 +12,8 @@ export const runSimulation = (
             return fcfs(processes);
         case 'SJF':
             return sjf(processes);
-        // case 'Priority':
-        //     return priority(processes);
+        case 'Priority':
+            return priority(processes);
         case 'RR':
             return rr(processes, options);
         // case 'SRJF':

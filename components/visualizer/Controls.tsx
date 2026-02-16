@@ -30,7 +30,7 @@ export const Controls = () => {
                         <SelectItem value="FCFS">First Come First Serve</SelectItem>
                         <SelectItem value="SJF">Shortest Job First (Non-P)</SelectItem>
                         {/* <SelectItem value="SRJF">Shortest Remaining Job First</SelectItem> */}
-                        {/* <SelectItem value="Priority">Priority Scheduling</SelectItem> */}
+                        <SelectItem value="Priority">Priority Scheduling</SelectItem>
                         <SelectItem value="RR">Round Robin (RR)</SelectItem>
                     </SelectContent>
                 </Select>
