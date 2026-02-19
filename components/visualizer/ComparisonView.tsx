@@ -9,7 +9,7 @@ import { AlgorithmType } from "@/lib/types";
 export const ComparisonView = () => {
     const { processes, timeQuantum } = useStore();
 
-    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRJF', 'Priority', 'RR'];
+    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRTF', 'Priority', 'RR'];
 
     const data = algorithms.map(algo => {
         const result = runSimulation(algo, processes, { timeQuantum });

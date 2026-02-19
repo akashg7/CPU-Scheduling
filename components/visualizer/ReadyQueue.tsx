@@ -128,7 +128,7 @@ export const ReadyQueue = () => {
                                         {id}
                                     </div>
                                     {/* Badges */}
-                                    {(algorithm === 'Priority' || algorithm === 'SJF' || algorithm === 'SRJF') && (
+                                    {(algorithm === 'Priority' || algorithm === 'SJF' || algorithm === 'SRTF' || algorithm === 'SRJF') && (
                                         <div className="absolute -bottom-2 -right-1 bg-white text-xs text-slate-700 px-2 py-0.5 rounded-md border border-slate-200 shadow-sm z-20 font-mono font-semibold">
                                             {algorithm === 'Priority' ? `P${p?.priority}` : `${p?.burstTime}ms`}
                                         </div>
