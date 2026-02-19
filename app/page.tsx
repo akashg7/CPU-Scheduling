@@ -10,10 +10,19 @@ import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ComparisonView } from "@/components/visualizer/ComparisonView";
-import { Cpu, BarChart3 } from "lucide-react";
+import { Cpu, BarChart3, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+
+const ALGO_LABELS: Record<string, string> = {
+  FCFS: "First Come First Serve",
+  SJF: "Shortest Job First",
+  SRTF: "Shortest Remaining Time First",
+  Priority: "Priority",
+  RR: "Round Robin",
+};
 
 export default function Home() {
-  const { run, algorithm, processes, timeQuantum } = useStore();
+  const { run, algorithm, processes, timeQuantum, results, currentTime, totalDuration } = useStore();
 
   // Auto-run simulation when inputs change
   useEffect(() => {
@@ -28,19 +37,32 @@ export default function Home() {
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 gradient-text">
               CPU Scheduling Visualizer
             </h1>
-            <p className="text-slate-600 text-lg">
+            <p className="text-slate-600 text-lg mb-4">
               Visualize and compare scheduling algorithms with deterministic precision.
             </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant="secondary" className="bg-indigo-100 text-indigo-800 border-indigo-200 font-semibold px-3 py-1">
+                {ALGO_LABELS[algorithm] ?? algorithm}
+              </Badge>
+              {results && (
+                <span className="inline-flex items-center gap-1.5 text-sm text-slate-500 font-mono">
+                  <Clock className="w-4 h-4 text-slate-400" />
+                  <span>t = {currentTime.toFixed(1)}</span>
+                  <span className="text-slate-400">/</span>
+                  <span>{totalDuration}</span>
+                </span>
+              )}
+            </div>
           </div>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Sidebar: Controls & Inputs */}
           <div className="space-y-6 lg:col-span-1">
-            <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+            <Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
               <CardHeader className="pb-4">
                 <CardTitle className="text-slate-800 flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-purple-600" />
+                  <Cpu className="w-5 h-5 text-indigo-600" />
                   Configuration
                 </CardTitle>
               </CardHeader>
@@ -72,7 +94,7 @@ export default function Home() {
               </TabsList>
 
               <TabsContent value="visualizer" className="space-y-6 animate-fade-in">
-                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                <Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
                   <CardHeader className="pb-4">
                     <CardTitle className="text-slate-800">Visualization</CardTitle>
                   </CardHeader>
@@ -84,12 +106,23 @@ export default function Home() {
                     <div className="space-y-3">
                       <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">Timeline</h3>
                       <GanttChart />
+                      {processes.length > 0 && (
+                        <div className="flex flex-wrap gap-4 pt-2 border-t border-slate-100">
+                          <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Processes</span>
+                          {processes.map((p) => (
+                            <span key={p.id} className="inline-flex items-center gap-1.5 text-sm text-slate-700">
+                              <span className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: p.color }} />
+                              <span className="font-medium">{p.id}</span>
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
-                  <CardHeader className="pb-4">
+<Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
+                <CardHeader className="pb-4">
                     <CardTitle className="text-slate-800">Metrics</CardTitle>
                   </CardHeader>
                   <CardContent>

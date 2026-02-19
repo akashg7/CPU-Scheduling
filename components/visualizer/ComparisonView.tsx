@@ -22,10 +22,19 @@ export const ComparisonView = () => {
 
     const maxWait = Math.max(...data.map(d => d.avgWait), 1);
     const maxTurn = Math.max(...data.map(d => d.avgTurn), 1);
+    const bestWait = data.length ? data.reduce((a, b) => (a.avgWait <= b.avgWait ? a : b)) : null;
+    const bestTurn = data.length ? data.reduce((a, b) => (a.avgTurn <= b.avgTurn ? a : b)) : null;
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+            <div className="rounded-xl border border-indigo-200/80 bg-indigo-50/50 px-4 py-3 text-sm text-slate-700">
+                <span className="font-semibold text-indigo-800">Legend:</span>
+                <span className="ml-2">Waiting time = time spent in ready queue before first run.</span>
+                <span className="mx-2 text-slate-400">·</span>
+                <span>Turnaround time = completion time − arrival time.</span>
+            </div>
+
+            <Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
                 <CardHeader className="pb-4 border-b border-slate-200">
                     <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Algorithm Benchmark</CardTitle>
                 </CardHeader>
@@ -41,8 +50,28 @@ export const ComparisonView = () => {
                         </TableHeader>
                         <TableBody>
                             {data.map((d) => (
-                                <TableRow key={d.algo} className="border-slate-200 hover:bg-purple-50/30 transition-colors">
-                                    <TableCell className="font-semibold text-slate-800 py-3.5">{d.algo}</TableCell>
+                                <TableRow
+                                    key={d.algo}
+                                    className={`border-slate-200 transition-colors ${
+                                        d.algo === bestWait?.algo || d.algo === bestTurn?.algo
+                                            ? "bg-indigo-50/70 hover:bg-indigo-50"
+                                            : "hover:bg-purple-50/30"
+                                    }`}
+                                >
+                                    <TableCell className="font-semibold text-slate-800 py-3.5">
+                                        <span className="flex items-center gap-2">
+                                            {d.algo}
+                                            {d.algo === bestWait?.algo && d.algo === bestTurn?.algo && (
+                                                <span className="text-[10px] font-bold uppercase text-indigo-600 bg-indigo-100 px-1.5 py-0.5 rounded">Best</span>
+                                            )}
+                                            {d.algo === bestWait?.algo && d.algo !== bestTurn?.algo && (
+                                                <span className="text-[10px] font-bold uppercase text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded">Best wait</span>
+                                            )}
+                                            {d.algo === bestTurn?.algo && d.algo !== bestWait?.algo && (
+                                                <span className="text-[10px] font-bold uppercase text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">Best turn</span>
+                                            )}
+                                        </span>
+                                    </TableCell>
                                     <TableCell className="text-right text-blue-600 font-mono font-semibold py-3.5 text-sm">{d.avgWait.toFixed(2)}</TableCell>
                                     <TableCell className="text-right text-emerald-600 font-mono font-semibold py-3.5 text-sm">{d.avgTurn.toFixed(2)}</TableCell>
                                     <TableCell className="text-right text-slate-600 font-mono py-3.5 text-sm">{d.maxComp}</TableCell>
@@ -54,7 +83,7 @@ export const ComparisonView = () => {
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                <Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
                     <CardHeader className="pb-4 border-b border-slate-200">
                         <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Waiting Time Visualization</CardTitle>
                     </CardHeader>
@@ -78,7 +107,7 @@ export const ComparisonView = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="glass-card shadow-xl border-slate-200/60 hover:shadow-2xl transition-all duration-300">
+                <Card className="glass-card shadow-xl border-slate-200/60 card-hover transition-all duration-300">
                     <CardHeader className="pb-4 border-b border-slate-200">
                         <CardTitle className="text-slate-700 text-sm uppercase tracking-wider font-bold">Turnaround Time Visualization</CardTitle>
                     </CardHeader>
