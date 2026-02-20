@@ -8,7 +8,15 @@ export const MetricsTable = () => {
     const metrics = results?.metrics || [];
 
     if (!results) {
-        return <div className="text-center text-slate-400 py-12 italic text-sm">Run simulation to view analysis</div>;
+        return (
+            <div className="flex flex-col items-center justify-center py-14 px-4 text-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50">
+                <div className="w-14 h-14 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mb-3 shadow-sm">
+                    <span className="text-2xl font-mono font-bold text-slate-300">Σ</span>
+                </div>
+                <p className="text-sm font-medium text-slate-600 mb-1">No metrics yet</p>
+                <p className="text-xs text-slate-500 max-w-[240px]">Add at least one process and run a simulation to see waiting time, turnaround time, and CPU utilization.</p>
+            </div>
+        );
     }
 
     const avgWait = metrics.reduce((acc, m) => acc + m.waitingTime, 0) / Math.max(metrics.length, 1);

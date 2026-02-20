@@ -43,7 +43,7 @@ export interface SimulationResult {
   logs: SystemLog[];
 }
 
-export type AlgorithmType = 'FCFS' | 'SJF' | 'Priority' | 'RR' | 'SRJF';
+export type AlgorithmType = 'FCFS' | 'SJF' | 'SRTF' | 'Priority' | 'RR' | 'SRJF';
 
 export interface AlgorithmOptions {
   timeQuantum?: number; // For RR

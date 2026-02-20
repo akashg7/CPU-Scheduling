@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Cpu } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Process } from "@/lib/types";
 
@@ -70,6 +70,15 @@ export const ProcessInput = () => {
             </Button>
 
             <div className="rounded-xl border border-slate-200 bg-white/60 max-h-[240px] overflow-auto shadow-inner backdrop-blur-sm">
+                {processes.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+                        <div className="w-14 h-14 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center mb-3">
+                            <Cpu className="w-7 h-7 text-slate-400" />
+                        </div>
+                        <p className="text-sm font-medium text-slate-600 mb-1">No processes yet</p>
+                        <p className="text-xs text-slate-500 max-w-[200px]">Add arrival time, burst time and priority above, then click Add Process.</p>
+                    </div>
+                ) : (
                 <Table>
                     <TableHeader className="bg-slate-50/80 sticky top-0 z-10 backdrop-blur-sm">
                         <TableRow className="border-slate-200 hover:bg-slate-50">
@@ -106,6 +115,7 @@ export const ProcessInput = () => {
                         ))}
                     </TableBody>
                 </Table>
+                )}
             </div>
         </div>
     );

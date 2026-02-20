@@ -29,6 +29,7 @@ export const Controls = () => {
                     <SelectContent className="bg-white border-slate-200 shadow-2xl rounded-xl">
                         <SelectItem value="FCFS" className="hover:bg-purple-50">First Come First Serve</SelectItem>
                         <SelectItem value="SJF" className="hover:bg-purple-50">Shortest Job First (Non-P)</SelectItem>
+                        <SelectItem value="SRTF" className="hover:bg-purple-50">Shortest Remaining Time First (SRTF)</SelectItem>
                         <SelectItem value="Priority" className="hover:bg-purple-50">Priority Scheduling</SelectItem>
                         <SelectItem value="RR" className="hover:bg-purple-50">Round Robin (RR)</SelectItem>
                     </SelectContent>
