@@ -5,10 +5,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, RotateCcw, StepForward } from "lucide-react";
+import { Play, Pause, RotateCcw, StepForward, Lightbulb } from "lucide-react";
 import { AlgorithmType } from "@/lib/types";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { ALGORITHM_EXAMPLES } from "@/lib/examples";
 
 export const Controls = () => {
     const {
@@ -17,7 +18,8 @@ export const Controls = () => {
         mlqConfig, setMLQConfig,
         isPlaying, togglePlayback,
         setCurrentTime, step,
-        simulationSpeed, setSimulationSpeed
+        simulationSpeed, setSimulationSpeed,
+        loadExample
     } = useStore();
 
     return (
@@ -37,6 +39,23 @@ export const Controls = () => {
                         <SelectItem value="MLQ" className="hover:bg-purple-50 dark:hover:bg-slate-700">Multi-Level Queue (macOS)</SelectItem>
                     </SelectContent>
                 </Select>
+            </div>
+
+            {/* Load Example Button */}
+            <div className="space-y-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => loadExample(algorithm)}
+                    className="w-full gap-2 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-950/50 dark:hover:to-orange-950/50 hover:border-amber-300 dark:hover:border-amber-700 transition-all shadow-sm"
+                >
+                    <Lightbulb className="w-4 h-4" />
+                    Load Example Processes
+                </Button>
+                <div className="rounded-lg bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200/60 dark:border-slate-700/40 px-3 py-2">
+                    <p className="text-[11px] font-medium text-slate-600 dark:text-slate-300">{ALGORITHM_EXAMPLES[algorithm].title}</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">{ALGORITHM_EXAMPLES[algorithm].description}</p>
+                </div>
             </div>
 
             {algorithm === 'RR' && (

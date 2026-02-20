@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Process, AlgorithmType, SimulationResult, MLQConfig } from '@/lib/types';
 import { runSimulation } from '@/lib/runner';
+import { ALGORITHM_EXAMPLES } from '@/lib/examples';
 
 interface AppState {
     processes: Process[];
@@ -24,6 +25,7 @@ interface AppState {
     setCurrentTime: (time: number) => void;
     togglePlayback: () => void;
     run: () => void;
+    loadExample: (algo: AlgorithmType) => void;
     reset: () => void; // Reset simulation
     step: () => void;
 }
@@ -61,6 +63,24 @@ export const useStore = create<AppState>((set, get) => ({
     setSimulationSpeed: (speed) => set({ simulationSpeed: speed }),
     setCurrentTime: (time) => set({ currentTime: time }),
     togglePlayback: () => set((state) => ({ isPlaying: !state.isPlaying })),
+
+    loadExample: (algo) => {
+        const example = ALGORITHM_EXAMPLES[algo];
+        if (!example) return;
+        const updates: Partial<AppState> = {
+            processes: example.processes,
+            algorithm: algo,
+            currentTime: 0,
+            isPlaying: false,
+        };
+        if (example.recommendedTimeQuantum) {
+            updates.timeQuantum = example.recommendedTimeQuantum;
+        }
+        if (example.recommendedMLQConfig) {
+            updates.mlqConfig = example.recommendedMLQConfig;
+        }
+        set(updates);
+    },
 
     run: () => {
         const { processes, algorithm, timeQuantum, mlqConfig } = get();
