@@ -9,7 +9,7 @@ import { AlgorithmType } from "@/lib/types";
 export const ComparisonView = () => {
     const { processes, timeQuantum } = useStore();
 
-    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRTF', 'Priority', 'RR'];
+    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRTF', 'Priority', 'RR', 'MLQ'];
 
     const data = algorithms.map(algo => {
         const result = runSimulation(algo, processes, { timeQuantum });
@@ -52,11 +52,10 @@ export const ComparisonView = () => {
                             {data.map((d) => (
                                 <TableRow
                                     key={d.algo}
-                                    className={`border-slate-200 dark:border-slate-600 transition-colors ${
-                                        d.algo === bestWait?.algo || d.algo === bestTurn?.algo
+                                    className={`border-slate-200 dark:border-slate-600 transition-colors ${d.algo === bestWait?.algo || d.algo === bestTurn?.algo
                                             ? "bg-indigo-50/70 dark:bg-indigo-900/30 hover:bg-indigo-50 dark:hover:bg-indigo-900/40"
                                             : "hover:bg-purple-50/30 dark:hover:bg-slate-700/30"
-                                    }`}
+                                        }`}
                                 >
                                     <TableCell className="font-semibold text-slate-800 dark:text-slate-200 py-3.5">
                                         <span className="flex items-center gap-2">

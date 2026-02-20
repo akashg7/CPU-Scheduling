@@ -1,5 +1,5 @@
 import { AlgorithmType, Process, SimulationResult, AlgorithmOptions } from "./types";
-import { fcfs, sjf, srtf, rr } from "./algorithms";
+import { fcfs, sjf, srtf, rr, mlq } from "./algorithms";
 import { priority } from "./algorithms/priority";
 
 export const runSimulation = (
@@ -20,6 +20,8 @@ export const runSimulation = (
             return rr(processes, options);
         case 'SRJF':
             return srtf(processes); // SRJF = SRTF (same algorithm)
+        case 'MLQ':
+            return mlq(processes, options);
         default:
             return fcfs(processes);
     }

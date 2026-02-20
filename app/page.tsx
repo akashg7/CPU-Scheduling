@@ -20,6 +20,7 @@ const ALGO_LABELS: Record<string, string> = {
   SRTF: "Shortest Remaining Time First",
   Priority: "Priority",
   RR: "Round Robin",
+  MLQ: "Multi-Level Queue (macOS)",
 };
 
 export default function Home() {
@@ -124,7 +125,7 @@ export default function Home() {
                 </Card>
 
                 <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
-                <CardHeader className="pb-4">
+                  <CardHeader className="pb-4">
                     <CardTitle className="text-slate-800 dark:text-slate-100">Metrics — waiting time, turnaround time, CPU utilization</CardTitle>
                   </CardHeader>
                   <CardContent>

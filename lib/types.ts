@@ -5,6 +5,7 @@ export interface Process {
   burstTime: number;
   priority: number; // Lower value usually means higher priority, will clarify in usage
   color: string;
+  queueLevel?: 1 | 2 | 3; // For MLQ: 1=System(highest), 2=Interactive, 3=Batch(lowest)
 }
 
 export interface ScheduledBlock {
@@ -43,8 +44,15 @@ export interface SimulationResult {
   logs: SystemLog[];
 }
 
-export type AlgorithmType = 'FCFS' | 'SJF' | 'SRTF' | 'Priority' | 'RR' | 'SRJF';
+export type AlgorithmType = 'FCFS' | 'SJF' | 'SRTF' | 'Priority' | 'RR' | 'SRJF' | 'MLQ';
+
+export interface MLQConfig {
+  q1TimeQuantum: number; // System queue (RR)
+  q2TimeQuantum: number; // Interactive queue (RR)
+  // Q3 uses FCFS (no quantum needed)
+}
 
 export interface AlgorithmOptions {
   timeQuantum?: number; // For RR
+  mlqConfig?: MLQConfig; // For MLQ
 }
