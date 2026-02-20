@@ -31,17 +31,15 @@ export default function Home() {
   }, [run, algorithm, processes, timeQuantum]);
 
   return (
-    <main className="min-h-screen p-4 md:p-8 font-sans bg-transparent">
+    <main className="min-h-screen p-4 md:p-8 font-sans bg-transparent relative">
+      <ThemeToggle />
       <div className="max-w-7xl mx-auto space-y-8 animate-fade-in">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-slate-200/60 dark:border-slate-700/60">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 gradient-text">
-                CPU Scheduling Visualizer
-              </h1>
-              <ThemeToggle />
-            </div>
-            <p className="text-slate-600 dark:text-slate-400 text-lg mb-4">
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 pt-2 border-b border-slate-200/50 dark:border-slate-700/50">
+          <div className="flex-1 pr-14 md:pr-0">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-3 gradient-text">
+              CPU Scheduling Visualizer
+            </h1>
+            <p className="text-slate-600 dark:text-slate-400 text-lg mb-4 leading-relaxed max-w-2xl">
               Add processes (arrival, burst, priority), pick an algorithm, then watch the timeline. Use the Comparison tab to see which algorithm gives the best waiting and turnaround times.
             </p>
             <div className="flex flex-wrap items-center gap-3">
@@ -63,7 +61,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Sidebar: Controls & Inputs */}
           <div className="space-y-6 lg:col-span-1">
-            <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+            <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
               <CardHeader className="pb-4">
                 <CardTitle className="text-slate-800 dark:text-slate-100 flex items-center gap-2">
                   <Cpu className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
@@ -98,7 +96,7 @@ export default function Home() {
               </TabsList>
 
               <TabsContent value="visualizer" className="space-y-6 animate-fade-in">
-                <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+                <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                   <CardHeader className="pb-4">
                     <CardTitle className="text-slate-800 dark:text-slate-100">Visualization</CardTitle>
                   </CardHeader>
@@ -125,7 +123,7 @@ export default function Home() {
                   </CardContent>
                 </Card>
 
-                <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+                <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                 <CardHeader className="pb-4">
                     <CardTitle className="text-slate-800 dark:text-slate-100">Metrics — waiting time, turnaround time, CPU utilization</CardTitle>
                   </CardHeader>

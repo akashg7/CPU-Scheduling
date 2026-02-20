@@ -34,7 +34,7 @@ export const ComparisonView = () => {
                 <span>Turnaround time = completion time − arrival time. Lower is better.</span>
             </div>
 
-            <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+            <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                 <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-600">
                     <CardTitle className="text-slate-700 dark:text-slate-100 text-sm uppercase tracking-wider font-bold">Algorithm Benchmark — same processes, different algorithms</CardTitle>
                 </CardHeader>
@@ -83,7 +83,7 @@ export const ComparisonView = () => {
             </Card>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+                <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                     <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-600">
                         <CardTitle className="text-slate-700 dark:text-slate-100 text-sm uppercase tracking-wider font-bold">Waiting Time — lower is better</CardTitle>
                     </CardHeader>
@@ -107,7 +107,7 @@ export const ComparisonView = () => {
                     </CardContent>
                 </Card>
 
-                <Card className="glass-card shadow-xl border-slate-200/60 dark:border-slate-700/60 card-hover transition-all duration-300">
+                <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                     <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-600">
                         <CardTitle className="text-slate-700 dark:text-slate-100 text-sm uppercase tracking-wider font-bold">Turnaround Time — lower is better</CardTitle>
                     </CardHeader>
