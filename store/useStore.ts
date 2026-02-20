@@ -36,7 +36,7 @@ export const useStore = create<AppState>((set, get) => ({
     ],
     algorithm: 'FCFS',
     timeQuantum: 2,
-    mlqConfig: { q1TimeQuantum: 2, q2TimeQuantum: 4 },
+    mlqConfig: { q1TimeQuantum: 2, q2TimeQuantum: 4, feedbackEnabled: true, agingEnabled: true, agingThreshold: 8 },
     results: null,
     isPlaying: false,
     simulationSpeed: 1,

@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Play, Pause, RotateCcw, StepForward } from "lucide-react";
 import { AlgorithmType } from "@/lib/types";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 export const Controls = () => {
     const {
@@ -57,7 +58,7 @@ export const Controls = () => {
             {algorithm === 'MLQ' && (
                 <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
                     <div className="rounded-xl border border-indigo-200/80 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-950/30 p-3 text-xs text-slate-600 dark:text-slate-300 space-y-1.5">
-                        <p className="font-semibold text-indigo-800 dark:text-indigo-300 text-sm">macOS-style Queue Tiers</p>
+                        <p className="font-semibold text-indigo-800 dark:text-indigo-300 text-sm">macOS-style MLFQ</p>
                         <div className="flex items-center gap-2">
                             <span className="inline-block w-2 h-2 rounded-full bg-red-500"></span>
                             <span><strong>Q1 — System</strong> (highest priority) • Round Robin</span>
@@ -70,7 +71,7 @@ export const Controls = () => {
                             <span className="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
                             <span><strong>Q3 — Batch</strong> (lowest) • FCFS</span>
                         </div>
-                        <p className="text-[10px] text-slate-500 dark:text-slate-400 pt-1">Higher queues always preempt lower queues. Assign each process a queue level.</p>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 pt-1">Feedback demotes CPU-hungry processes. Aging promotes starved ones.</p>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-2">
@@ -99,6 +100,43 @@ export const Controls = () => {
                                 <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">ms</span>
                             </div>
                         </div>
+                    </div>
+                    <div className="space-y-3 pt-1">
+                        <div className="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/50 px-3 py-2.5">
+                            <div>
+                                <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">⬇ Feedback (Demotion)</p>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400">Q1→Q2→Q3 on quantum expiry</p>
+                            </div>
+                            <Switch
+                                checked={mlqConfig.feedbackEnabled}
+                                onCheckedChange={(v) => setMLQConfig({ feedbackEnabled: v })}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-700 bg-white/60 dark:bg-slate-800/50 px-3 py-2.5">
+                            <div>
+                                <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">⬆ Aging (Promotion)</p>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400">Prevents starvation Q3→Q2→Q1</p>
+                            </div>
+                            <Switch
+                                checked={mlqConfig.agingEnabled}
+                                onCheckedChange={(v) => setMLQConfig({ agingEnabled: v })}
+                            />
+                        </div>
+                        {mlqConfig.agingEnabled && (
+                            <div className="space-y-2 animate-in fade-in slide-in-from-top-1">
+                                <Label className="text-xs uppercase font-semibold text-slate-600 dark:text-slate-400 tracking-wider">Aging Threshold</Label>
+                                <div className="flex items-center gap-2">
+                                    <Input
+                                        type="number"
+                                        min={1}
+                                        value={mlqConfig.agingThreshold}
+                                        onChange={(e) => setMLQConfig({ agingThreshold: parseInt(e.target.value) || 1 })}
+                                        className="bg-white/80 dark:bg-slate-800/80 border-slate-300 dark:border-slate-600 text-slate-800 dark:text-slate-100 h-10 font-mono shadow-sm focus-visible:ring-2 focus-visible:ring-indigo-500/50 hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors"
+                                    />
+                                    <span className="text-sm text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">time units</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

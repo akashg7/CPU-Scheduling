@@ -50,6 +50,9 @@ export interface MLQConfig {
   q1TimeQuantum: number; // System queue (RR)
   q2TimeQuantum: number; // Interactive queue (RR)
   // Q3 uses FCFS (no quantum needed)
+  feedbackEnabled: boolean; // Demote on quantum expiry (Q1→Q2→Q3)
+  agingEnabled: boolean;    // Promote after waiting too long (Q3→Q2→Q1)
+  agingThreshold: number;   // Time units before aging promotion
 }
 
 export interface AlgorithmOptions {
