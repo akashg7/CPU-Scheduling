@@ -27,9 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="theme-color" id="theme-color-meta" content="#f8fafc" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('cpu-scheduling-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',t==='dark'||(!t&&d));})();`,
+            __html: `(function(){var t=localStorage.getItem('cpu-scheduling-theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;var dark=t==='dark'||(!t&&d);document.documentElement.classList.toggle('dark',dark);var m=document.getElementById('theme-color-meta');if(m)m.content=dark?'#020617':'#f8fafc';})();`,
           }}
         />
       </head>
