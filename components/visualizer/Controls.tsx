@@ -47,7 +47,7 @@ export const Controls = () => {
                     variant="outline"
                     size="sm"
                     onClick={() => loadExample(algorithm)}
-                    className="w-full gap-2 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-950/50 dark:hover:to-orange-950/50 hover:border-amber-300 dark:hover:border-amber-700 transition-all shadow-sm"
+                    className="w-full gap-2 bg-indigo-50/80 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800/60 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100/80 dark:hover:bg-indigo-950/50 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all shadow-sm"
                 >
                     <Lightbulb className="w-4 h-4" />
                     Load Example Processes
