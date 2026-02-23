@@ -103,6 +103,18 @@ export default function SplashCursor({
       config.SHADING = false;
     }
 
+    // Responsive: lower resolution on mobile/small screens for performance
+    const isMobileOrSmall =
+      typeof window !== 'undefined' &&
+      (window.innerWidth <= 768 ||
+        window.innerHeight <= 600 ||
+        'ontouchstart' in window);
+    if (isMobileOrSmall) {
+      config.SIM_RESOLUTION = Math.min(config.SIM_RESOLUTION, 64);
+      config.DYE_RESOLUTION = Math.min(config.DYE_RESOLUTION, 512);
+      config.PRESSURE_ITERATIONS = Math.min(config.PRESSURE_ITERATIONS, 10);
+    }
+
     function getWebGLContext(canvas: HTMLCanvasElement) {
       const params = {
         alpha: true,
@@ -845,7 +857,9 @@ export default function SplashCursor({
 
     function scaleByPixelRatio(input: number) {
       const pixelRatio = window.devicePixelRatio || 1;
-      return Math.floor(input * pixelRatio);
+      // Cap pixel ratio on mobile for performance and to avoid huge canvases
+      const cappedRatio = isMobileOrSmall ? Math.min(pixelRatio, 2) : pixelRatio;
+      return Math.floor(input * cappedRatio);
     }
 
     updateKeywords();
@@ -1288,23 +1302,26 @@ export default function SplashCursor({
 
   return (
     <div
+      className="splash-cursor-wrapper"
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
+        inset: 0,
         zIndex: 50,
         pointerEvents: 'none',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        minHeight: '100dvh'
       }}
     >
       <canvas
         ref={canvasRef}
         id="fluid"
         style={{
-          width: '100vw',
-          height: '100vh',
-          display: 'block'
+          width: '100%',
+          height: '100%',
+          minHeight: '100dvh',
+          display: 'block',
+          objectFit: 'cover'
         }}
       />
     </div>
