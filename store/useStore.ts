@@ -26,6 +26,7 @@ interface AppState {
     togglePlayback: () => void;
     run: () => void;
     loadExample: (algo: AlgorithmType) => void;
+    setProcesses: (processes: Process[]) => void;
     reset: () => void; // Reset simulation
     step: () => void;
     stepBack: () => void;
@@ -64,6 +65,8 @@ export const useStore = create<AppState>((set, get) => ({
     setSimulationSpeed: (speed) => set({ simulationSpeed: speed }),
     setCurrentTime: (time) => set({ currentTime: time }),
     togglePlayback: () => set((state) => ({ isPlaying: !state.isPlaying })),
+
+    setProcesses: (processes: Process[]) => set({ processes }),
 
     loadExample: (algo) => {
         const example = ALGORITHM_EXAMPLES[algo];

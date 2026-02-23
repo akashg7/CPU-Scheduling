@@ -10,6 +10,8 @@ import { Trash2, Plus, Cpu } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Process } from "@/lib/types";
 
+import { AiProcessGenerator } from "./AiProcessGenerator";
+
 const QUEUE_LABELS: Record<number, string> = { 1: "Q1", 2: "Q2", 3: "Q3" };
 const QUEUE_COLORS: Record<number, string> = { 1: "bg-red-500", 2: "bg-amber-500", 3: "bg-emerald-500" };
 
@@ -41,7 +43,8 @@ export const ProcessInput = () => {
 
     return (
         <div className="space-y-4">
-            <p className="text-xs text-slate-500">
+            <AiProcessGenerator />
+            <p className="text-xs text-slate-500 dark:text-slate-400">
                 Arrival = when the process arrives; Burst = CPU time needed; Priority = lower number = higher priority (for Priority / SRTF).
                 {isMLQ && " Queue = which MLQ tier (Q1=System, Q2=Interactive, Q3=Batch)."}
             </p>
