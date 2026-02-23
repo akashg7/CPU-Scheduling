@@ -44,7 +44,7 @@ export interface SimulationResult {
   logs: SystemLog[];
 }
 
-export type AlgorithmType = 'FCFS' | 'SJF' | 'SRTF' | 'Priority' | 'RR' | 'SRJF' | 'MLQ';
+export type AlgorithmType = 'FCFS' | 'SJF' | 'SRTF' | 'Priority' | 'RR' | 'SRJF' | 'MLQ' | 'MLFQ';
 
 export interface MLQConfig {
   q1TimeQuantum: number; // System queue (RR)

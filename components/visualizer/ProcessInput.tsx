@@ -22,7 +22,7 @@ export const ProcessInput = () => {
         queueLevel: 1,
     });
 
-    const isMLQ = algorithm === 'MLQ';
+    const isMLQ = algorithm === 'MLQ' || algorithm === 'MLFQ';
 
     const handleAdd = () => {
         const id = `P${processes.length + 1}`;

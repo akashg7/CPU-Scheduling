@@ -92,9 +92,28 @@ export const ALGORITHM_EXAMPLES: Record<AlgorithmType, AlgorithmExample> = {
     },
     MLQ: {
         algorithm: 'MLQ',
+        title: 'MLQ — Static Multi-Level Queue',
+        description:
+            'Three fixed-priority queues: system (Q1), interactive (Q2), batch (Q3). No feedback or aging — lower queues can suffer from starvation if higher-priority queues are busy.',
+        processes: [
+            { id: 'P1', arrivalTime: 0, burstTime: 6, priority: 1, color: COLORS[0], queueLevel: 1 },
+            { id: 'P2', arrivalTime: 1, burstTime: 3, priority: 2, color: COLORS[1], queueLevel: 2 },
+            { id: 'P3', arrivalTime: 2, burstTime: 5, priority: 3, color: COLORS[2], queueLevel: 3 },
+            { id: 'P4', arrivalTime: 4, burstTime: 4, priority: 4, color: COLORS[3], queueLevel: 3 },
+        ] as Process[],
+        recommendedMLQConfig: {
+            q1TimeQuantum: 2,
+            q2TimeQuantum: 4,
+            feedbackEnabled: false,
+            agingEnabled: false,
+            agingThreshold: 9999,
+        },
+    },
+    MLFQ: {
+        algorithm: 'MLFQ',
         title: 'MLFQ — Feedback & Aging Demo',
         description:
-            'P1 (Q1 system) runs first with quantum=2. After expiry it demotes to Q2. P4 (Q3 batch) waits, but aging promotes it after the threshold. This shows both feedback demotion and starvation prevention.',
+            'macOS-style multi-level feedback queue. P1 (Q1 system) demotes to Q2 after using its quantum. P4 (Q3 batch) waits, but aging promotes it after the threshold. This shows both feedback demotion and starvation prevention.',
         processes: [
             { id: 'P1', arrivalTime: 0, burstTime: 6, priority: 1, color: COLORS[0], queueLevel: 1 },
             { id: 'P2', arrivalTime: 1, burstTime: 3, priority: 2, color: COLORS[1], queueLevel: 2 },

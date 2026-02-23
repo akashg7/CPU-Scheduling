@@ -5,6 +5,7 @@ import { Controls } from "@/components/visualizer/Controls";
 import { GanttChart } from "@/components/visualizer/GanttChart";
 import { MetricsTable } from "@/components/visualizer/MetricsTable";
 import { ReadyQueue } from "@/components/visualizer/ReadyQueue";
+import { InsightsPanel } from "@/components/visualizer/InsightsPanel";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useStore } from "@/store/useStore";
 import { useEffect } from "react";
@@ -20,16 +21,17 @@ const ALGO_LABELS: Record<string, string> = {
   SRTF: "Shortest Remaining Time First",
   Priority: "Priority",
   RR: "Round Robin",
-  MLQ: "Multi-Level Queue (macOS)",
+  MLQ: "Multi-Level Queue (static)",
+  MLFQ: "Multi-Level Feedback Queue (macOS)",
 };
 
 export default function Home() {
-  const { run, algorithm, processes, timeQuantum, results, currentTime, totalDuration } = useStore();
+  const { run, algorithm, processes, timeQuantum, mlqConfig, results, currentTime, totalDuration } = useStore();
 
   // Auto-run simulation when inputs change
   useEffect(() => {
     run();
-  }, [run, algorithm, processes, timeQuantum]);
+  }, [run, algorithm, processes, timeQuantum, mlqConfig]);
 
   return (
     <main className="min-h-screen p-4 md:p-8 font-sans bg-transparent relative">
@@ -123,6 +125,8 @@ export default function Home() {
                     </div>
                   </CardContent>
                 </Card>
+
+                <InsightsPanel />
 
                 <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                   <CardHeader className="pb-4">

@@ -21,6 +21,19 @@ export const runSimulation = (
         case 'SRJF':
             return srtf(processes); // SRJF = SRTF (same algorithm)
         case 'MLQ':
+            // Classic multi-level queue: no feedback or aging by default
+            return mlq(processes, {
+                ...options,
+                mlqConfig: {
+                    q1TimeQuantum: options?.mlqConfig?.q1TimeQuantum ?? 2,
+                    q2TimeQuantum: options?.mlqConfig?.q2TimeQuantum ?? 4,
+                    feedbackEnabled: false,
+                    agingEnabled: false,
+                    agingThreshold: options?.mlqConfig?.agingThreshold ?? 9999,
+                },
+            });
+        case 'MLFQ':
+            // Multi-level feedback queue (macOS-style)
             return mlq(processes, options);
         default:
             return fcfs(processes);

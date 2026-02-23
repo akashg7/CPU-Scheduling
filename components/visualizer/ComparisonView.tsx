@@ -7,12 +7,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { AlgorithmType } from "@/lib/types";
 
 export const ComparisonView = () => {
-    const { processes, timeQuantum } = useStore();
+    const { processes, timeQuantum, mlqConfig } = useStore();
 
-    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRTF', 'Priority', 'RR', 'MLQ'];
+    const algorithms: AlgorithmType[] = ['FCFS', 'SJF', 'SRTF', 'Priority', 'RR', 'MLQ', 'MLFQ'];
 
     const data = algorithms.map(algo => {
-        const result = runSimulation(algo, processes, { timeQuantum });
+        const result = runSimulation(algo, processes, { timeQuantum, mlqConfig });
         const avgWait = result.metrics.reduce((acc, m) => acc + m.waitingTime, 0) / Math.max(result.metrics.length, 1);
         const avgTurn = result.metrics.reduce((acc, m) => acc + m.turnaroundTime, 0) / Math.max(result.metrics.length, 1);
         const maxComp = Math.max(...result.metrics.map(m => m.completionTime), 0);
