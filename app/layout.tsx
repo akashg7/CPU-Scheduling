@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SplashCursor from "@/components/SplashCursor";
 
 export const metadata: Metadata = {
   title: "Team 404 — CPU Scheduling Visualizer",
@@ -17,6 +18,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0A0A0F" />
       </head>
       <body className="font-body antialiased bg-schedos-base text-slate-100">
+        <SplashCursor />
         {children}
       </body>
     </html>
