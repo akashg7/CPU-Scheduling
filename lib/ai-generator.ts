@@ -23,7 +23,14 @@ export async function generateAIProcesses(scenario: string): Promise<AIProcessRe
     // Assign random colors and queue levels if missing
     const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
 
-    data.processes = data.processes.map((p: any, index: number) => ({
+    data.processes = data.processes.map((p: {
+        id?: string;
+        arrivalTime?: string | number;
+        burstTime?: string | number;
+        priority?: string | number;
+        color?: string;
+        queueLevel?: number;
+    }, index: number) => ({
         id: p.id || `P${index + 1}`,
         arrivalTime: Number(p.arrivalTime) || 0,
         burstTime: Number(p.burstTime) || 1,
