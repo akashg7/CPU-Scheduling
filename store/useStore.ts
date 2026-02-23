@@ -28,6 +28,7 @@ interface AppState {
     loadExample: (algo: AlgorithmType) => void;
     reset: () => void; // Reset simulation
     step: () => void;
+    stepBack: () => void;
 }
 
 export const useStore = create<AppState>((set, get) => ({
@@ -94,6 +95,13 @@ export const useStore = create<AppState>((set, get) => ({
         const { currentTime, totalDuration } = get();
         if (currentTime < totalDuration) {
             set({ currentTime: Math.min(currentTime + 1, totalDuration) });
+        }
+    },
+
+    stepBack: () => {
+        const { currentTime } = get();
+        if (currentTime > 0) {
+            set({ currentTime: Math.max(0, currentTime - 1) });
         }
     },
 

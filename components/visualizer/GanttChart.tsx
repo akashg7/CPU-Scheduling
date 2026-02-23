@@ -76,17 +76,17 @@ export const GanttChart = () => {
                     if (e.key === "ArrowLeft") setCurrentTime(Math.max(0, currentTime - step));
                     if (e.key === "ArrowRight") setCurrentTime(Math.min(duration, currentTime + step));
                 }}
-                className="relative w-full h-28 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-600 overflow-hidden group shadow-inner cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-900"
+                className="relative w-full h-28 bg-schedos-elevated rounded-xl border border-slate-800 overflow-hidden cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-schedos-base"
             >
                 {/* Grid Background */}
                 <div className="absolute inset-0 flex pointer-events-none">
                     {Array.from({ length: Math.ceil(duration) }).map((_, i) => (
-                        <div key={i} className="flex-1 border-r border-slate-200/50 dark:border-slate-600/50 h-full" />
+                        <div key={i} className="flex-1 border-r border-slate-800/80 h-full" />
                     ))}
                 </div>
 
-                {/* Blocks */}
-                <div className="absolute inset-y-0 left-0 right-0 flex items-center p-4 pointer-events-none">
+                {/* Blocks — Framer Motion width animation */}
+                <div className="absolute inset-y-0 left-0 right-0 flex items-center p-3 pointer-events-none">
                     {results?.ganttChart.map((block, i) => {
                         const startPercent = (block.startTime / duration) * 100;
                         const widthPercent = ((block.endTime - block.startTime) / duration) * 100;
@@ -101,61 +101,73 @@ export const GanttChart = () => {
                         if (currentTime <= block.startTime) return null;
 
                         return (
-                            <div
+                            <motion.div
                                 key={i}
-                                className="absolute h-14 rounded-lg bg-white/80 dark:bg-slate-700/80 overflow-hidden shadow-md border border-slate-200/60 dark:border-slate-600/60"
+                                className="absolute h-12 rounded-md overflow-hidden"
                                 style={{
                                     left: `${startPercent}%`,
                                     width: `${widthPercent}%`,
+                                    backgroundColor: `${block.color}30`,
+                                    border: `1px solid ${block.color}60`,
                                 }}
+                                initial={false}
+                                animate={{ opacity: 1 }}
                             >
-                                <div
-                                    className="absolute inset-y-0 left-0 transition-all duration-200"
+                                <motion.div
+                                    className="absolute inset-y-0 left-0 rounded-l-md"
                                     style={{
-                                        width: `${visibleWidth}%`,
                                         backgroundColor: block.color,
-                                        opacity: 0.85,
                                     }}
+                                    initial={false}
+                                    animate={{ width: `${visibleWidth}%` }}
+                                    transition={{ type: "tween", duration: 0.2 }}
                                 />
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <span className="text-xs font-bold text-white drop-shadow-lg tracking-wide">
-                                        {widthPercent > 3 ? block.processId : ""}
+                                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <span className="text-xs font-bold text-white drop-shadow-md font-mono">
+                                        {widthPercent > 4 ? block.processId : ""}
                                     </span>
                                 </div>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
 
-                {/* Timeline Cursor */}
+                {/* Scrub cursor */}
                 <motion.div
-                    className="absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 to-purple-600 z-20 shadow-lg pointer-events-none"
+                    className="absolute top-0 bottom-0 w-0.5 z-20 pointer-events-none"
                     style={{
                         left: `${(currentTime / duration) * 100}%`,
-                        filter: "drop-shadow(0 0 8px rgba(99, 102, 241, 0.6))",
+                        background: 'linear-gradient(to bottom, #7C3AED, #06B6D4)',
+                        boxShadow: '0 0 10px rgba(124, 58, 237, 0.6)',
                     }}
                 />
+                <div
+                    className="absolute top-0 z-30 pointer-events-none -translate-x-1/2 -translate-y-0.5"
+                    style={{ left: `${(currentTime / duration) * 100}%` }}
+                >
+                    <div className="w-2 h-2 rotate-45 bg-white" />
+                </div>
 
                 {/* Time label at cursor */}
                 <div
-                    className="absolute bottom-2 z-30 pointer-events-none transition-all duration-75 -translate-x-1/2"
+                    className="absolute bottom-1 z-30 pointer-events-none -translate-x-1/2"
                     style={{ left: `${(currentTime / duration) * 100}%` }}
                 >
-                    <span className="inline-block px-2 py-0.5 rounded bg-indigo-600 dark:bg-indigo-500 text-white text-xs font-mono font-bold shadow-md whitespace-nowrap">
+                    <span className="inline-block px-2 py-0.5 rounded bg-schedos-surface border border-violet-500/50 text-cyan-400 text-xs font-mono font-bold whitespace-nowrap">
                         t = {currentTime.toFixed(1)}
                     </span>
                 </div>
 
                 {/* Time tick marks */}
-                <div className="absolute bottom-2 left-0 right-0 flex justify-between px-3 pointer-events-none">
+                <div className="absolute bottom-1 left-0 right-0 flex justify-between px-2 pointer-events-none">
                     {ticks.map((t) => (
-                        <span key={t} className="text-xs text-slate-500 dark:text-slate-400 font-mono font-semibold">
+                        <span key={t} className="text-[10px] text-slate-500 font-mono">
                             {t}
                         </span>
                     ))}
                 </div>
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 pl-1">Click on timeline to scrub to a time · Use arrow keys to step</p>
+            <p className="text-[10px] text-slate-600 mt-1">Click to scrub · Use ← → keys to step</p>
         </div>
     );
 };

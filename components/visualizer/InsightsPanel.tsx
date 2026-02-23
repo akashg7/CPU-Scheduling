@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useStore } from "@/store/useStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Lightbulb, Sparkles, RefreshCw, Loader2 } from "lucide-react";
+import { Lightbulb, Sparkles } from "lucide-react";
 
 interface InsightsResponse {
   insights: string;
@@ -19,27 +19,21 @@ export const InsightsPanel = () => {
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
 
-  // Reset insights when results change so the user can request fresh ones
+  // Clear insights when simulation inputs change (so user knows to click again)
   useEffect(() => {
-    if (!results || processes.length === 0 || results.metrics.length === 0) {
-      setInsights(null);
-      setError(null);
-    }
-  }, [results, processes]);
+    setInsights(null);
+    setError(null);
+  }, [algorithm, timeQuantum, mlqConfig, processes, results]);
 
   const fetchInsights = useCallback(async () => {
     if (!results || processes.length === 0 || results.metrics.length === 0) return;
 
-    // Abort any in-flight request
-    if (controllerRef.current) {
-      controllerRef.current.abort();
-    }
-
+    if (controllerRef.current) controllerRef.current.abort();
     const controller = new AbortController();
     controllerRef.current = controller;
-
     setLoading(true);
     setError(null);
+    setInsights(null);
 
     try {
       const res = await fetch("/api/insights", {
@@ -77,29 +71,24 @@ export const InsightsPanel = () => {
   const renderInsights = () => {
     if (loading) {
       return (
-        <div className="flex flex-col items-center justify-center py-6 gap-3">
-          <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Asking the LLM for an explanation of this schedule…
-          </p>
-        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Asking the LLM for an explanation of this schedule…
+        </p>
       );
     }
 
     if (error) {
       return (
         <div className="space-y-3">
-          <p className="text-xs text-red-500 dark:text-red-400">
-            {error}
-          </p>
+          <p className="text-xs text-red-500 dark:text-red-400">{error}</p>
           <Button
             onClick={fetchInsights}
-            size="sm"
             variant="outline"
-            className="gap-2 border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
+            size="sm"
+            className="gap-2 border-amber-500/40 text-amber-200 hover:bg-amber-500/10"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Retry
+            <Sparkles className="w-4 h-4" />
+            Try again
           </Button>
         </div>
       );
@@ -107,59 +96,42 @@ export const InsightsPanel = () => {
 
     if (!insights) {
       return (
-        <div className="flex flex-col items-center justify-center py-6 gap-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-amber-500 dark:text-amber-300" />
-          </div>
-          <div className="text-center space-y-1">
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
-              Ready to analyze your schedule
-            </p>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              Click the button below to get AI-powered performance insights.
-            </p>
-          </div>
+        <div className="space-y-3">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Get an AI explanation of this schedule. Run a simulation first, then click below.
+          </p>
           <Button
             onClick={fetchInsights}
-            className="gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md hover:shadow-lg transition-all duration-300"
+            disabled={!results || processes.length === 0 || results.metrics.length === 0}
+            className="gap-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/40"
           >
             <Sparkles className="w-4 h-4" />
-            Get AI Suggestion
+            Get AI insights
           </Button>
         </div>
       );
     }
 
-    // Split response into individual bullet points
-    const lines = insights
-      .split(/\n|(?=•)|(?=- )|(?=\* )|(?=\d+\. )/)
-      .map((l) => l.replace(/^[•\-*]\s*/, "").trim())
-      .filter((l) => l.length > 0);
-
     return (
       <div className="space-y-3">
-        <ul className="space-y-2">
-          {lines.map((line, idx) => (
-            <li
-              key={idx}
-              className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-200 leading-relaxed"
-            >
-              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 shrink-0" />
-              <span>{line}</span>
-            </li>
-          ))}
-        </ul>
-        <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-          <Button
-            onClick={fetchInsights}
-            size="sm"
-            variant="outline"
-            className="gap-2 text-xs border-amber-300/60 dark:border-amber-500/60 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-950/40"
-          >
-            <RefreshCw className="w-3 h-3" />
-            Refresh Insights
-          </Button>
+        <div className="space-y-2">
+          {insights.split("\n").map((line: string, idx: number) =>
+            line.trim().length === 0 ? null : (
+              <p key={idx} className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+                {line}
+              </p>
+            )
+          )}
         </div>
+        <Button
+          onClick={fetchInsights}
+          variant="ghost"
+          size="sm"
+          className="gap-2 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10"
+        >
+          <Sparkles className="w-4 h-4" />
+          Refresh insights
+        </Button>
       </div>
     );
   };
