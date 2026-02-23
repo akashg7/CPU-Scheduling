@@ -42,7 +42,7 @@ interface InsightsBody {
 
 // In-memory cache
 const insightsCache = new Map<string, { insights: string; timestamp: number }>();
-const CACHE_TTL_MS = 60 * 1000; // 1 minute
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
 function hashBody(body: InsightsBody): string {
   return crypto
@@ -188,8 +188,8 @@ function buildHeuristicInsights(body: InsightsBody | null): string {
 async function fetchGeminiWithRetry(
   url: string,
   body: Record<string, unknown>,
-  retries = 3,
-  delayMs = 15000
+  retries = 1,
+  delayMs = 5000
 ): Promise<Response> {
   for (let i = 0; i < retries; i++) {
     const response = await fetch(url, {
@@ -240,22 +240,29 @@ export async function POST(request: Request) {
     console.log("🔑 [Insights] API key found. Calling Gemini LLM...");
 
     const prompt = `
-You are an operating-systems professor explaining CPU scheduling behavior.
+You are an Operating Systems professor.
 
-Explain:
-- Why certain processes wait longer
-- Whether convoy/starvation/context-switching appear
-- How ${algorithm} behaves with this workload
-- Parameter tuning suggestions
+Return EXACTLY 6 bullet points.
 
-Do NOT restate JSON.
+Rules:
+- Each line must start with "- "
+- Each bullet must be under 18 words.
+- No headers.
+- No paragraphs.
+- No explanations outside bullets.
 
-Data:
+Cover:
+- High waiting time reason
+- Convoy effect (if present)
+- Starvation (if present)
+- Context switching overhead
+- One tuning suggestion for ${algorithm}
+
+Schedule Data:
 ${JSON.stringify({ algorithm, timeQuantum, mlqConfig, processes, results })}
 `;
-
     const response = await fetchGeminiWithRetry(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
       encodeURIComponent(apiKey),
       {
         contents: [
@@ -266,6 +273,7 @@ ${JSON.stringify({ algorithm, timeQuantum, mlqConfig, processes, results })}
         ],
         generationConfig: {
           temperature: 0.3,
+          maxOutputTokens: 5000,
         },
       }
     );

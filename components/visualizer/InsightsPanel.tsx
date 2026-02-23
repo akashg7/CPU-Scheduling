@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useStore } from "@/store/useStore";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Lightbulb } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Lightbulb, Sparkles, RefreshCw, Loader2 } from "lucide-react";
 
 interface InsightsResponse {
   insights: string;
@@ -16,54 +17,59 @@ export const InsightsPanel = () => {
   const [insights, setInsights] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const controllerRef = useRef<AbortController | null>(null);
 
+  // Reset insights when results change so the user can request fresh ones
   useEffect(() => {
     if (!results || processes.length === 0 || results.metrics.length === 0) {
       setInsights(null);
       setError(null);
-      return;
+    }
+  }, [results, processes]);
+
+  const fetchInsights = useCallback(async () => {
+    if (!results || processes.length === 0 || results.metrics.length === 0) return;
+
+    // Abort any in-flight request
+    if (controllerRef.current) {
+      controllerRef.current.abort();
     }
 
     const controller = new AbortController();
+    controllerRef.current = controller;
 
-    const fetchInsights = async () => {
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
 
-      try {
-        const res = await fetch("/api/insights", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            algorithm,
-            timeQuantum,
-            mlqConfig,
-            processes,
-            results,
-          }),
-          signal: controller.signal,
-        });
+    try {
+      const res = await fetch("/api/insights", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          algorithm,
+          timeQuantum,
+          mlqConfig,
+          processes,
+          results,
+        }),
+        signal: controller.signal,
+      });
 
-        if (!res.ok) {
-          throw new Error(`Request failed with status ${res.status}`);
-        }
-
-        const data: InsightsResponse = await res.json();
-        setInsights(data.insights);
-      } catch {
-        if (!controller.signal.aborted) {
-          setError("Could not load AI insights. Try again after a moment.");
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
+      if (!res.ok) {
+        throw new Error(`Request failed with status ${res.status}`);
       }
-    };
 
-    fetchInsights();
-
-    return () => controller.abort();
+      const data: InsightsResponse = await res.json();
+      setInsights(data.insights);
+    } catch {
+      if (!controller.signal.aborted) {
+        setError("Could not load AI insights. Try again after a moment.");
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
   }, [algorithm, timeQuantum, mlqConfig, processes, results]);
 
   if (!results) return null;
@@ -71,34 +77,90 @@ export const InsightsPanel = () => {
   const renderInsights = () => {
     if (loading) {
       return (
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          Asking the LLM for an explanation of this schedule…
-        </p>
+        <div className="flex flex-col items-center justify-center py-6 gap-3">
+          <Loader2 className="w-6 h-6 text-amber-500 animate-spin" />
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Asking the LLM for an explanation of this schedule…
+          </p>
+        </div>
       );
     }
 
     if (error) {
       return (
-        <p className="text-xs text-red-500 dark:text-red-400">
-          {error}
-        </p>
+        <div className="space-y-3">
+          <p className="text-xs text-red-500 dark:text-red-400">
+            {error}
+          </p>
+          <Button
+            onClick={fetchInsights}
+            size="sm"
+            variant="outline"
+            className="gap-2 border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            Retry
+          </Button>
+        </div>
       );
     }
 
     if (!insights) {
       return (
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          No AI insights yet. Run a simulation to generate a schedule first.
-        </p>
+        <div className="flex flex-col items-center justify-center py-6 gap-4">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 flex items-center justify-center">
+            <Sparkles className="w-6 h-6 text-amber-500 dark:text-amber-300" />
+          </div>
+          <div className="text-center space-y-1">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">
+              Ready to analyze your schedule
+            </p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Click the button below to get AI-powered performance insights.
+            </p>
+          </div>
+          <Button
+            onClick={fetchInsights}
+            className="gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md hover:shadow-lg transition-all duration-300"
+          >
+            <Sparkles className="w-4 h-4" />
+            Get AI Suggestion
+          </Button>
+        </div>
       );
     }
 
-    return insights.split("\n").map((line, idx) =>
-      line.trim().length === 0 ? null : (
-        <p key={idx} className="text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
-          {line}
-        </p>
-      )
+    // Split response into individual bullet points
+    const lines = insights
+      .split(/\n|(?=•)|(?=- )|(?=\* )|(?=\d+\. )/)
+      .map((l) => l.replace(/^[•\-*]\s*/, "").trim())
+      .filter((l) => l.length > 0);
+
+    return (
+      <div className="space-y-3">
+        <ul className="space-y-2">
+          {lines.map((line, idx) => (
+            <li
+              key={idx}
+              className="flex items-start gap-2 text-sm text-slate-700 dark:text-slate-200 leading-relaxed"
+            >
+              <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 shrink-0" />
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+          <Button
+            onClick={fetchInsights}
+            size="sm"
+            variant="outline"
+            className="gap-2 text-xs border-amber-300/60 dark:border-amber-500/60 text-amber-700 dark:text-amber-200 hover:bg-amber-50 dark:hover:bg-amber-950/40"
+          >
+            <RefreshCw className="w-3 h-3" />
+            Refresh Insights
+          </Button>
+        </div>
+      </div>
     );
   };
 
