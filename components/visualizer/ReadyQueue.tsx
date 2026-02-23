@@ -33,13 +33,13 @@ export const ReadyQueue = () => {
             </div>
 
             {/* Ready Queue */}
-            <div className="flex-1 w-full md:w-auto p-5 rounded-xl bg-schedos-surface border border-slate-800 min-h-[140px] flex flex-col justify-center">
+            <div className="flex-1 min-w-0 w-full md:min-w-[200px] p-5 rounded-xl bg-schedos-surface border border-slate-800 min-h-[140px] flex flex-col justify-center max-w-full overflow-hidden">
                 <div className="flex justify-between items-center mb-3">
                     <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">
                         Ready Queue · {queueIds.length} process{queueIds.length !== 1 ? 'es' : ''} waiting
                     </span>
                 </div>
-                <div className="flex gap-3 overflow-x-auto pb-2 items-center min-h-[56px]">
+                <div className="flex flex-wrap gap-3 overflow-x-auto overflow-y-visible pb-2 items-center min-h-[56px] content-start">
                     <AnimatePresence mode="popLayout">
                         {queueIds.map((id) => {
                             const p = getProcess(id);
