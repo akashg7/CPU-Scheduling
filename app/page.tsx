@@ -21,6 +21,8 @@ const ALGOS = [
   { id: "SRTF", name: "SRTF", desc: "Shortest Remaining Time", badge: "Preemptive", color: "emerald" },
   { id: "Priority", name: "Priority (NP)", desc: "Priority order", badge: "Non-preemptive", color: "red" },
   { id: "PriorityP", name: "Priority (P)", desc: "Preemptive priority", badge: "Preemptive", color: "orange" },
+  { id: "MLQ", name: "MLQ", desc: "Multi-Level Queue", badge: "Multi-queue", color: "blue" },
+  { id: "MLFQ", name: "MLFQ", desc: "Multi-Level Feedback Queue", badge: "Preemptive", color: "teal" },
 ];
 
 const container = {
@@ -89,7 +91,7 @@ export default function LandingPage() {
             className="mt-8 py-2 overflow-hidden border-y border-slate-800/80"
           >
             <p className="text-xs text-slate-500 font-mono">
-              FCFS · Round Robin · SJF · SRTF · Priority · Comparison Mode
+              FCFS · Round Robin · SJF · SRTF · Priority · MLQ · MLFQ · Comparison
             </p>
           </motion.div>
         </motion.div>
@@ -118,7 +120,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-10 md:gap-16">
           <div className="flex items-center gap-3">
             <Zap className="w-5 h-5 text-violet-400" />
-            <span className="text-slate-300 font-medium">6 Algorithms</span>
+            <span className="text-slate-300 font-medium">8 Algorithms</span>
           </div>
           <div className="w-px h-6 bg-slate-700 hidden md:block" />
           <div className="flex items-center gap-3">
@@ -196,7 +198,7 @@ export default function LandingPage() {
           >
             <div className="order-2 md:order-1 schedos-card p-6 flex items-center justify-center min-h-[280px]">
               <div className="grid grid-cols-2 gap-2 w-full max-w-xs">
-                {["FCFS", "RR", "SJF", "SRTF", "Priority", "MLQ"].map((a, i) => (
+                {["FCFS", "RR", "SJF", "SRTF", "Priority", "MLQ", "MLFQ"].map((a, i) => (
                   <div
                     key={a}
                     className="p-3 rounded-lg bg-schedos-elevated border border-slate-700/80 text-center"
@@ -213,7 +215,7 @@ export default function LandingPage() {
                 Algorithm Comparison
               </h3>
               <p className="text-slate-400 leading-relaxed mb-6">
-                Run all 6 algorithms on the same process set simultaneously. Instantly see which gives the best average waiting time, turnaround time, and CPU utilization.
+                Run all 8 algorithms on the same process set simultaneously. Instantly see which gives the best average waiting time, turnaround time, and CPU utilization.
               </p>
               <Link
                 href="/visualizer?tab=comparison"
