@@ -27,7 +27,7 @@ export const ComparisonView = () => {
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <div className="rounded-xl border border-indigo-200/80 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-950/30 px-4 py-3 text-sm text-slate-700 dark:text-slate-300">
+            <div className="rounded-xl border border-indigo-200/80 dark:border-indigo-800/60 bg-indigo-50/50 dark:bg-indigo-950/30 px-3 sm:px-4 py-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
                 <span className="font-semibold text-indigo-800 dark:text-indigo-300">Legend:</span>
                 <span className="ml-2">Waiting time = time spent in ready queue before first run.</span>
                 <span className="mx-2 text-slate-400 dark:text-slate-500">·</span>
@@ -36,10 +36,10 @@ export const ComparisonView = () => {
 
             <Card className="glass-card shadow-lg border-slate-200/50 dark:border-slate-700/50 card-hover transition-all duration-300 rounded-2xl overflow-hidden">
                 <CardHeader className="pb-4 border-b border-slate-200 dark:border-slate-600">
-                    <CardTitle className="text-slate-700 dark:text-slate-100 text-sm uppercase tracking-wider font-bold">Algorithm Benchmark — same processes, different algorithms</CardTitle>
+                    <CardTitle className="text-slate-700 dark:text-slate-100 text-xs sm:text-sm uppercase tracking-wider font-bold">Algorithm Benchmark — same processes, different algorithms</CardTitle>
                 </CardHeader>
-                <CardContent className="pt-6">
-                    <Table>
+                <CardContent className="pt-4 sm:pt-6 overflow-x-auto">
+                    <Table className="min-w-[420px]">
                         <TableHeader>
                             <TableRow className="border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700/50">
                                 <TableHead className="text-slate-700 dark:text-slate-300 font-bold uppercase text-xs tracking-wider h-11">Algorithm</TableHead>

@@ -57,6 +57,20 @@ export const GanttChart = () => {
         [duration, setCurrentTime]
     );
 
+    const handleTouchScrub = useCallback(
+        (e: React.TouchEvent<HTMLDivElement>) => {
+            const el = containerRef.current;
+            if (!el || !e.changedTouches?.length) return;
+            const touch = e.changedTouches[0];
+            const rect = el.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const pct = Math.max(0, Math.min(1, x / rect.width));
+            const t = pct * duration;
+            setCurrentTime(t);
+        },
+        [duration, setCurrentTime]
+    );
+
     const tickStep = duration <= 10 ? 2 : duration <= 30 ? 5 : Math.ceil(duration / 6);
     const ticks = Array.from({ length: Math.ceil(duration / tickStep) + 1 }, (_, i) => i * tickStep).filter((t) => t <= duration);
 
@@ -71,6 +85,7 @@ export const GanttChart = () => {
                 aria-valuenow={currentTime}
                 tabIndex={0}
                 onClick={handleScrub}
+                onTouchEnd={handleTouchScrub}
                 onKeyDown={(e) => {
                     const step = e.shiftKey ? 2 : 0.5;
                     if (e.key === "ArrowLeft") setCurrentTime(Math.max(0, currentTime - step));
@@ -167,7 +182,7 @@ export const GanttChart = () => {
                     ))}
                 </div>
             </div>
-            <p className="text-[10px] text-slate-600 mt-1">Click to scrub · Use ← → keys to step</p>
+            <p className="text-[10px] text-slate-600 mt-1">Click or tap to scrub · Use ← → keys to step</p>
         </div>
     );
 };

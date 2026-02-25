@@ -1,10 +1,17 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import SplashCursor from "@/components/SplashCursor";
 
 export const metadata: Metadata = {
   title: "Team 404 — CPU Scheduling Visualizer",
   description: "Schedule smarter. Visualize deeper. Interactive CPU scheduling simulator with FCFS, Round Robin, SJF, SRTF, Priority, and comparison mode.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

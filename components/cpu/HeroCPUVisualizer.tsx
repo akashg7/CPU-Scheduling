@@ -35,8 +35,8 @@ export function HeroCPUVisualizer() {
 
   return (
     <div
-      className="relative flex items-center justify-center"
-      style={{ width: 380, height: 380 }}
+      className="relative flex items-center justify-center w-full max-w-[min(380px,85vw)] aspect-square"
+      style={{ maxHeight: "min(380px, 85vw)" }}
     >
       <svg
         className="absolute inset-0 w-full h-full overflow-visible"
@@ -253,7 +253,7 @@ export function HeroCPUVisualizer() {
       </div>
 
       <p
-        className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[11px] text-slate-500"
+        className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[10px] sm:text-[11px] text-slate-500 px-2"
         style={{ letterSpacing: "0.1em" }}
       >
         3 processes queued · 1 running · FCFS mode

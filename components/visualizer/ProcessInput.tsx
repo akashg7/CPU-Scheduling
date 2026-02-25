@@ -48,7 +48,7 @@ export const ProcessInput = () => {
                 Arrival = when the process arrives; Burst = CPU time needed; Priority = lower number = higher priority (for Priority / SRTF).
                 {isMLQ && " Queue = which MLQ tier (Q1=System, Q2=Interactive, Q3=Batch)."}
             </p>
-            <div className={`grid ${isMLQ ? 'grid-cols-4' : 'grid-cols-3'} gap-3`}>
+            <div className={`grid ${isMLQ ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4' : 'grid-cols-2 sm:grid-cols-3'} gap-3`}>
                 <div className="space-y-2">
                     <Label className="text-xs uppercase font-semibold text-slate-500 tracking-wider">Arrival</Label>
                     <Input

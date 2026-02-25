@@ -44,7 +44,7 @@ export default function LandingPage() {
       <LandingNav />
 
       {/* Hero */}
-      <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 px-6 pt-24 pb-16 overflow-hidden">
+      <section className="relative min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 sm:gap-12 px-4 sm:px-6 pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(124,58,237,0.15),transparent)]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e1e2e_1px,transparent_1px),linear-gradient(to_bottom,#1e1e2e_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
@@ -60,7 +60,7 @@ export default function LandingPage() {
           </motion.div>
           <motion.h1
             variants={item}
-            className="font-display font-bold text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-6 leading-[1.1]"
+            className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white mb-4 sm:mb-6 leading-[1.1]"
           >
             Schedule Smarter.
             <br />
@@ -75,13 +75,13 @@ export default function LandingPage() {
           <motion.div variants={item} className="flex flex-wrap gap-3">
             <Link
               href="/visualizer"
-              className="shimmer-button inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all border border-violet-500/50"
+              className="shimmer-button inline-flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all border border-violet-500/50 min-h-[44px]"
             >
               Launch Simulator →
             </Link>
             <Link
               href="/#how-it-works"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-600 text-slate-300 hover:border-slate-500 hover:text-white font-medium transition-all"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 sm:px-6 sm:py-3 rounded-xl border border-slate-600 text-slate-300 hover:border-slate-500 hover:text-white font-medium transition-all min-h-[44px]"
             >
               View Algorithms
             </Link>
@@ -116,8 +116,8 @@ export default function LandingPage() {
       </section>
 
       {/* Stats bar */}
-      <section className="border-y border-slate-800/80 bg-schedos-surface/80 py-6">
-        <div className="max-w-5xl mx-auto px-6 flex flex-wrap justify-center gap-10 md:gap-16">
+      <section className="border-y border-slate-800/80 bg-schedos-surface/80 py-4 sm:py-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-wrap justify-center gap-6 sm:gap-10 md:gap-16">
           <div className="flex items-center gap-3">
             <Zap className="w-5 h-5 text-violet-400" />
             <span className="text-slate-300 font-medium">8 Algorithms</span>
@@ -141,25 +141,25 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center mb-16">
+      <section id="how-it-works" className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
           <div className="inline-block mb-4 px-4 py-2 rounded-lg bg-violet-500/10 border border-violet-500/20">
             <span className="text-violet-300 text-sm font-medium">Two modes. One platform.</span>
           </div>
           <p className="text-slate-400 text-lg">Schedule processes or compare all algorithms at once.</p>
         </div>
 
-        <div className="max-w-5xl mx-auto space-y-24">
+        <div className="max-w-5xl mx-auto space-y-16 sm:space-y-24">
           {/* Feature 01 */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center"
           >
             <div>
               <span className="text-slate-500 font-mono text-sm">■ 01</span>
-              <h3 className="font-display font-bold text-3xl md:text-4xl text-white mt-2 mb-4">
+              <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white mt-2 mb-4">
                 Interactive Scheduler
               </h3>
               <p className="text-slate-400 leading-relaxed mb-6">
@@ -194,7 +194,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="grid md:grid-cols-2 gap-8 sm:gap-12 items-center"
           >
             <div className="order-2 md:order-1 schedos-card p-6 flex items-center justify-center min-h-[280px]">
               <div className="grid grid-cols-2 gap-2 w-full max-w-xs">
@@ -211,7 +211,7 @@ export default function LandingPage() {
             </div>
             <div className="order-1 md:order-2">
               <span className="text-slate-500 font-mono text-sm">■ 02</span>
-              <h3 className="font-display font-bold text-3xl md:text-4xl text-white mt-2 mb-4">
+              <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white mt-2 mb-4">
                 Algorithm Comparison
               </h3>
               <p className="text-slate-400 leading-relaxed mb-6">
@@ -229,19 +229,19 @@ export default function LandingPage() {
       </section>
 
       {/* Algorithms grid */}
-      <section id="algorithms" className="py-24 px-6 bg-schedos-surface/50">
-        <div className="max-w-4xl mx-auto text-center mb-16">
+      <section id="algorithms" className="py-16 sm:py-24 px-4 sm:px-6 bg-schedos-surface/50">
+        <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-display font-bold text-3xl md:text-4xl text-white"
+            className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white"
           >
             Explore the Algorithms
           </motion.h2>
         </div>
 
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           {ALGOS.map((algo, i) => (
             <motion.div
               key={algo.id}
@@ -279,8 +279,8 @@ export default function LandingPage() {
       </section>
 
       {/* SchedBot section */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto schedos-card p-8 md:p-12 border-violet-500/20 flex flex-col md:flex-row gap-8 items-center">
+      <section className="py-16 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto schedos-card p-6 sm:p-8 md:p-12 border-violet-500/20 flex flex-col md:flex-row gap-6 sm:gap-8 items-center">
           <div className="flex-shrink-0">
             <div className="w-32 h-32 rounded-2xl bg-schedos-elevated border border-violet-500/30 flex items-center justify-center">
               <Bot className="w-16 h-16 text-violet-400" />
@@ -308,16 +308,16 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6">
+      <section className="py-16 sm:py-24 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto text-center">
           <div className="inline-block mb-4 px-4 py-2 rounded-lg bg-violet-500/10 border border-violet-500/20">
             <span className="text-violet-300 text-sm font-medium">Ready to visualize your OS?</span>
           </div>
           <p className="text-slate-400 mb-8">Free. Open source. No setup required.</p>
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             <Link
               href="/visualizer"
-              className="shimmer-button inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all border border-violet-500/50"
+              className="shimmer-button inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold transition-all border border-violet-500/50 min-h-[44px]"
             >
               Launch Simulator
             </Link>
@@ -325,7 +325,7 @@ export default function LandingPage() {
               href="https://github.com/akashg7/CPU-Scheduling"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-600 text-slate-300 hover:border-slate-500 hover:text-white font-medium transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 rounded-xl border border-slate-600 text-slate-300 hover:border-slate-500 hover:text-white font-medium transition-all min-h-[44px]"
             >
               <Github className="w-5 h-5" />
               Star on GitHub
@@ -338,7 +338,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800/80 py-12 px-6">
+      <footer className="border-t border-slate-800/80 py-10 sm:py-12 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <Cpu className="w-6 h-6 text-violet-400" />

@@ -81,7 +81,7 @@ export default function GuidePage() {
     <div className="min-h-screen bg-[#0A0A0F] text-slate-100">
       <LandingNav />
 
-      <div className="flex pt-16">
+      <div className="flex pt-14 sm:pt-16">
         {/* Left sidebar — documentation TOC */}
         <aside
           className="hidden lg:block w-64 flex-shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto border-r border-slate-800 bg-schedos-base/50"
@@ -117,12 +117,12 @@ export default function GuidePage() {
 
         {/* Main content */}
         <main className="flex-1 min-w-0">
-          <div className="max-w-3xl mx-auto px-6 lg:px-10 py-10">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-8 sm:py-10">
             {/* Page title */}
             <div className="flex items-center gap-3 mb-2">
-              <BookOpen className="w-8 h-8 text-violet-400" />
-              <div>
-                <h1 className="font-display font-bold text-3xl text-white">
+              <BookOpen className="w-7 h-7 sm:w-8 sm:h-8 text-violet-400" />
+              <div className="min-w-0">
+                <h1 className="font-display font-bold text-2xl sm:text-3xl text-white">
                   CPU Scheduling
                 </h1>
                 <p className="text-slate-500 text-sm mt-0.5">
