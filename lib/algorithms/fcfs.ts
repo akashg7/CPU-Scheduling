@@ -3,7 +3,7 @@ import { Process, SimulationResult, ScheduledBlock, SimulationMetric, SystemSnap
 export const fcfs = (processes: Process[]): SimulationResult => {
     // Sort by arrival time
     const sortedProcesses = [...processes].sort((a, b) => a.arrivalTime - b.arrivalTime);
-
+    // For FCFS, we just process in order of arrival. No preemption.
     const ganttChart: ScheduledBlock[] = [];
     const metrics: SimulationMetric[] = [];
     const snapshots: SystemSnapshot[] = [];
